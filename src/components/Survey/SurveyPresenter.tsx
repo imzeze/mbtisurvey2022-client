@@ -7,7 +7,7 @@ interface SurveyPresenterProps {
 const SurveyPresenter = function ({ data }: SurveyPresenterProps) {
     return (
         <div>
-            <ExampleButton />
+            <ExampleButton>버튼</ExampleButton>
         </div>
     );
 };
