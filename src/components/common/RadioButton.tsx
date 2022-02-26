@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { DARKGREY, WHITE } from '../../assets/consts/color';
+import COLOR from '../../assets/consts/color';
 
 const StyledInput = styled.input`
     position: absolute;
@@ -10,7 +10,7 @@ const StyledInput = styled.input`
 
     & + label {
         font-size: 20px;
-        color: ${WHITE};
+        color: ${COLOR.WHITE};
         display: inline-block;
         position: relative;
         cursor: pointer;
@@ -30,15 +30,15 @@ const StyledInput = styled.input`
         line-height: 16px;
         text-align: center;
         vertical-align: middle;
-        background: ${WHITE};
+        background: ${COLOR.WHITE};
         border-radius: 50%;
         transition: 0.25s;
         margin-right: 10px;
     }
 
     &:checked + label:before {
-        background: ${DARKGREY};
-        box-shadow: inset 0px 0px 0px 5px ${WHITE};
+        background: ${COLOR.DARKGRAY};
+        box-shadow: inset 0px 0px 0px 5px ${COLOR.WHITE};
         transition: 0.25s;
     }
 `;

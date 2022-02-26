@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { SelectHTMLAttributes } from 'react';
-import { WHITE, WHITE50 } from '../../assets/consts/color';
-
+import COLOR from '../../assets/consts/color';
 import { bottomArrowIcon } from '../../assets/icons';
 
 const StyledSelect = styled.select`
@@ -9,8 +8,8 @@ const StyledSelect = styled.select`
     height: 65px;
     background: transparent;
     border: 0;
-    border-bottom: 2px solid ${WHITE};
-    color: ${WHITE};
+    border-bottom: 2px solid ${COLOR.WHITE};
+    color: ${COLOR.WHITE};
     font-size: 40px;
     padding-left: 20px;
     padding-bottom: 10px;
@@ -19,7 +18,7 @@ const StyledSelect = styled.select`
         outline: none;
     }
     ::placeholder {
-        color: ${WHITE50};
+        color: ${COLOR.WHITE50};
     }
 `;
 

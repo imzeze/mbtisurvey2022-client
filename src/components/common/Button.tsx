@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import { WHITE, WHITE05 } from '../../assets/consts/color';
+import COLOR from '../../assets/consts/color';
 
 const Button = styled.button`
     width: 300px;
     height: 82px;
-    background: ${WHITE05};
-    border: 2px solid ${WHITE};
+    background: ${COLOR.WHITE05};
+    border: 2px solid ${COLOR.WHITE};
     border-radius: 321px;
     font-size: 28px;
     font-weight: normal;
-    color: ${WHITE};
+    color: ${COLOR.WHITE};
 `;
 
 export default Button;
