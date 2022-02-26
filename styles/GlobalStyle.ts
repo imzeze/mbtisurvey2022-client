@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import COLOR from '../src/assets/consts/color';
 
 const GlobalStyle = css`
     @font-face {
@@ -46,6 +47,30 @@ const GlobalStyle = css`
     }
     * {
         box-sizing: border-box;
+    }
+
+    h1 {
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 400;
+        margin: 0;
+        color: ${COLOR.WHITE};
+    }
+
+    h2 {
+        font-size: 28px;
+        line-height: 37px;
+        font-weight: 700;
+        margin: 0;
+        color: ${COLOR.WHITE};
+    }
+
+    h3 {
+        /* font-size: 40px;
+        line-height: 48px;
+        font-weight: 400;
+        margin: 0; */
+        color: ${COLOR.WHITE};
     }
 `;
 

@@ -1,9 +1,7 @@
 import SurveyPresenter from './SurveyPresenter';
 
 const SurveyContainer = function () {
-    const data = {};
-
-    return <SurveyPresenter data={data} />;
+    return <SurveyPresenter />;
 };
 
 export default SurveyContainer;

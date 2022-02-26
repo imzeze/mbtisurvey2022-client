@@ -17,13 +17,14 @@ const SamplePage: NextPage = () => {
 
             <Header />
             <ContentsContainer>
-                <SelectBox>
+                <SelectBox onClick={() => console.log(1)}>
                     <option value="test">asdsad</option>
-                    <option value="test">asdsad</option>
-                    <option value="test">asdsad</option>
-                    <option value="test">asdsad</option>
-                    <option value="test">asdsad</option>
+                    <option value="test2">asd23sad</option>
+                    <option value="test3">asd23sad</option>
+                    <option value="test4">asd23sad</option>
+                    <option value="test5">asd32sad</option>
                 </SelectBox>
+                <button onClick={() => console.log(2)}>asd</button>
             </ContentsContainer>
             <Footer />
         </div>
