@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { SelectHTMLAttributes } from 'react';
 import COLOR from '../../assets/consts/color';
 import { bottomArrowIcon } from '../../assets/icons';
 
@@ -22,8 +21,14 @@ const StyledSelect = styled.select`
     }
 `;
 
-export default function SelectBox({
-    ...attrs
-}: SelectHTMLAttributes<HTMLSelectElement>) {
-    return <StyledSelect {...attrs} />;
+interface SelectBoxProps
+    extends React.DetailedHTMLProps<
+        React.SelectHTMLAttributes<HTMLSelectElement>,
+        HTMLSelectElement
+    > {
+    children: React.ReactNode;
+}
+
+export default function SelectBox({ children, ...attrs }: SelectBoxProps) {
+    return <StyledSelect {...attrs}>{children}</StyledSelect>;
 }

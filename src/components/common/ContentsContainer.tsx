@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import React from 'react';
 import COLOR from '../../assets/consts/color';
 
 const Container = styled.div`
@@ -7,8 +8,8 @@ const Container = styled.div`
     height: calc(100vh - 218px);
 `;
 
-const ContentsContainer = () => {
-    return <Container> </Container>;
+const ContentsContainer = ({ children }: { children: React.ReactNode }) => {
+    return <Container>{children}</Container>;
 };
 
 export default ContentsContainer;
