@@ -12,6 +12,7 @@ import { useState } from 'react';
 import Button from '../common/Button';
 import { useRecoilState } from 'recoil';
 import { CurrentSurveyStep } from '../../recoil/atoms';
+import COLOR from '../../assets/consts/color';
 
 // interface SurveyPresenterProps {}
 
@@ -42,6 +43,7 @@ const SurveyPresenter = function () {
             >
                 나의 MBTI는
             </h1>
+            <MbtiInput />
             <Button
                 css={css`
                     margin-top: 100px;
@@ -414,13 +416,7 @@ const SurveyPresenter = function () {
         </>,
     ];
 
-    return (
-        <FormContainer>
-            {surveyArr.map((elem, index) => {
-                if (index === currentSurveyStep) return elem;
-            })}
-        </FormContainer>
-    );
+    return <FormContainer>{surveyArr[currentSurveyStep]}</FormContainer>;
 };
 
 const RadioButtons = function ({
@@ -503,6 +499,22 @@ const QuestionTitle = function ({ text }: { text: string }) {
     );
 };
 
-// const AlphabetItem = function () {};
+const MbtiInput = function () {
+    return (
+        <input
+            css={css`
+                width: 97px;
+                height: 146px;
+                background: transparent;
+                border: 0;
+                border-bottom: 2px solid ${COLOR.WHITE};
+                appearance: none;
+                :focus {
+                    outline: none;
+                }
+            `}
+        />
+    );
+};
 
 export default SurveyPresenter;
