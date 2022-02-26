@@ -30,15 +30,57 @@ const GlobalStyle = css`
         font-display: fallback;
     }
 
+    @font-face {
+        font-family: 'Montserrat';
+        font-weight: 700;
+        src: url('fonts/Montserrat-Bold.ttf') format('ttf');
+        font-display: fallback;
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-weight: 500;
+        src: url('fonts/Montserrat-Medium.ttf') format('ttf');
+        font-display: fallback;
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-weight: 400;
+        src: url('fonts/Montserrat-Regular.ttf') format('ttf');
+        font-display: fallback;
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-weight: 300;
+        src: url('fonts/Montserrat-Light.ttf') format('ttf');
+        font-display: fallback;
+    }
+    @font-face {
+        font-family: 'Montserrat';
+        font-weight: 200;
+        src: url('fonts/Montserrat-Thin.ttf') format('ttf');
+        font-display: fallback;
+    }
+
     * {
         -webkit-tap-highlight-color: transparent;
-        font-family: Pretendard, Helvetica, Arial, sans-serif;
+        font-family: 'Pretendard', 'Montserrat', Helvetica, Arial, sans-serif;
     }
 
     html,
     body {
         padding: 0;
         margin: 0;
+    }
+
+    div {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+        box-sizing: border-box;
     }
 
     a {
