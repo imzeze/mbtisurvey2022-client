@@ -1,4 +1,8 @@
-export const WHITE = '#FFFFFF';
-export const WHITE05 = '#FFFFFF05';
-export const WHITE50 = '#FFFFFF50';
-export const DARKGREY = '#333';
+const COLOR = {
+    DARKGRAY: '#212121',
+    WHITE: '#FFFFFF',
+    WHITE05: '#FFFFFF05',
+    WHITE50: '#FFFFFF50'
+};
+
+export default COLOR;
