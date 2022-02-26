@@ -16,6 +16,7 @@ const Flex = function ({
     return (
         <div
             style={{
+                display: 'flex',
                 flexDirection: col ? 'column' : 'row',
                 justifyContent: justify,
                 alignItems: align,

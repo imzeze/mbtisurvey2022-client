@@ -14,8 +14,10 @@ const SurveyPresenter = function () {
             </h1>
             <Flex col>
                 <h2>MBTI</h2>
-                <RadioButton name="mbti">INFP</RadioButton>
-                <RadioButton name="mbti">INFJ</RadioButton>
+                <Flex>
+                    <RadioButton name="mbti">INFP</RadioButton>
+                    <RadioButton name="mbti">INFJ</RadioButton>
+                </Flex>
                 <RadioButton name="mbti">INTP</RadioButton>
                 <RadioButton name="mbti">INTJ</RadioButton>
                 <RadioButton name="mbti">ISFP</RadioButton>

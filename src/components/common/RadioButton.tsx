@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import COLOR from '../../assets/consts/color';
+import Flex from './Flex';
 
 const StyledInput = styled.input`
     position: absolute;
@@ -55,9 +56,9 @@ export default function RadioButton({ children, ...attrs }: RadioButtonProps) {
     const random = String(Math.random() * 5);
 
     return (
-        <div>
+        <Flex>
             <StyledInput id={random} type="radio" {...attrs} />
             <label htmlFor={random}>{children}</label>
-        </div>
+        </Flex>
     );
 }
