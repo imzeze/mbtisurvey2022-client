@@ -9,7 +9,7 @@ const Flex = function ({
     align,
 }: {
     children: React.ReactNode | string;
-    col?: string;
+    col?: boolean;
     justify?: string;
     align?: string;
 }) {

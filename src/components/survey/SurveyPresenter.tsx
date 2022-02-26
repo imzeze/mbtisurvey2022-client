@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Flex from '../common/Flex';
 import RadioButton from '../common/RadioButton';
 
 // interface SurveyPresenterProps {}
@@ -11,7 +12,7 @@ const SurveyPresenter = function () {
                 <br />
                 시작합니다
             </h1>
-            <ItemContainer>
+            <Flex col>
                 <h2>MBTI</h2>
                 <RadioButton name="mbti">INFP</RadioButton>
                 <RadioButton name="mbti">INFJ</RadioButton>
@@ -29,19 +30,13 @@ const SurveyPresenter = function () {
                 <RadioButton name="mbti">ESFJ</RadioButton>
                 <RadioButton name="mbti">ESTP</RadioButton>
                 <RadioButton name="mbti">ESTJ</RadioButton>
-            </ItemContainer>
+            </Flex>
         </FormContainer>
     );
 };
 
 const FormContainer = styled.div`
     margin-top: 40px;
-    min-width: 600px;
-`;
-
-const ItemContainer = styled.div`
-    display: flex;
-    flex-direction: column;
 `;
 
 export default SurveyPresenter;
