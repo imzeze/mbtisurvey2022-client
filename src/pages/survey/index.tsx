@@ -1,4 +1,4 @@
-import SurveyContainer from '../../components/Survey/SurveyContainer';
+import SurveyContainer from '../../components/survey/SurveyContainer';
 
 const SurveyPage = function () {
     return <SurveyContainer />;
