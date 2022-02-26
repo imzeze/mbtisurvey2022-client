@@ -17,7 +17,7 @@ const Template = ({
     children,
     ...containerStyle
 }: ContentsContainerProps & React.CSSProperties) => {
-    return <Container style={{ ...containerStyle }} />;
+    return <Container style={{ ...containerStyle }}>{children}</Container>;
 };
 
 export default Template;

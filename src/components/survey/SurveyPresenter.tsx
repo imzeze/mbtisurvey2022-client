@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import Input from '../common/Input';
 import RadioButton from '../common/RadioButton';
 
-interface SurveyPresenterProps {}
+// interface SurveyPresenterProps {}
 
-const SurveyPresenter = function ({}: SurveyPresenterProps) {
+const SurveyPresenter = function () {
     return (
         <FormContainer>
             <h1>
