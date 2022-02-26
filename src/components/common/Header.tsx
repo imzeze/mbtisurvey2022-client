@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
+import { Image } from '.';
 import COLOR from '../../assets/consts/color';
 import { ArrowHeader } from '../../assets/icons';
 import { useLocalStorage } from '../../util/useLocalStorage';
@@ -21,7 +21,7 @@ const Header = () => {
 
     return (
         <Container>
-            <Image src={ArrowHeader} width={24} height={21} alt="arrow" />
+            <Image src={ArrowHeader} width="136px" height="32px" alt="arrow" />
             <span>{(Number(step) / 10) * 100}%</span>
         </Container>
     );
