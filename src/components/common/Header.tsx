@@ -21,7 +21,7 @@ const Header = () => {
 
     return (
         <Container>
-            <Image src={ArrowHeader} width={24} height={21} />
+            <Image src={ArrowHeader} width={24} height={21} alt="arrow" />
             <span>{(Number(step) / 10) * 100}%</span>
         </Container>
     );

@@ -18,7 +18,7 @@ const Container = styled.div`
 const Footer = () => {
     return (
         <Container>
-            <Image src={Logo} width={74} height={24} />
+            <Image src={Logo} width={74} height={24} alt="Team NSM" />
         </Container>
     );
 };
