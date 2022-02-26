@@ -3,7 +3,7 @@ import { InputHTMLAttributes } from 'react';
 import COLOR from '../../assets/consts/color';
 
 const StyledInput = styled.input`
-    width: 300px;
+    width: 356px;
     height: 65px;
     background: transparent;
     border: 0;
@@ -12,6 +12,7 @@ const StyledInput = styled.input`
     font-size: 40px;
     padding-left: 20px;
     padding-bottom: 10px;
+    appearance: none;
     :focus {
         outline: none;
     }

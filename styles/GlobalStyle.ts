@@ -114,6 +114,19 @@ const GlobalStyle = css`
         margin: 0; */
         color: ${COLOR.WHITE};
     }
+
+    /* hide arrows 
+    Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+    }
+
+    /* Firefox */
+    input[type='number'] {
+        -moz-appearance: textfield !important;
+    }
 `;
 
 export default GlobalStyle;

@@ -5,7 +5,7 @@ import SurveyContainer from '../../components/survey/SurveyContainer';
 const SurveyPage: NextPage = () => {
     return (
         <Layout showHeader={true} showFooter={true}>
-            <Template>
+            <Template padding="140px 0" minHeight="100vh">
                 <SurveyContainer />
             </Template>
         </Layout>

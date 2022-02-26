@@ -9,7 +9,10 @@ const Container = styled.div`
     background: transparent;
     padding: 32px;
     font-size: 28px;
+    width: 100%;
     height: 110px;
+    position: fixed;
+    bottom: 0;
 `;
 
 const Footer = () => {

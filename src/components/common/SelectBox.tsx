@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import COLOR from '../../assets/consts/color';
-import { bottomArrowIcon } from '../../assets/icons';
 
 const StyledSelect = styled.select`
-    width: 300px;
+    width: 356px;
     height: 65px;
     background: transparent;
     border: 0;
