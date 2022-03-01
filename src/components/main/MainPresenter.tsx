@@ -45,7 +45,9 @@ const MainPresenter = () => {
                         봅시다!
                     </div>
                 </Intro>
-                <Button>시작합니다!</Button>
+                <Button onClick={() => router.push('/auth')}>
+                    시작합니다!
+                </Button>
             </Description>
             <Types>
                 <TypesBox>
