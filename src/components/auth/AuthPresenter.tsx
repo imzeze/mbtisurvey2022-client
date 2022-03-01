@@ -1,9 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import { jsx } from '@emotion/react';
-import { Button, Input } from '../common';
+import { useState } from 'react';
+import { Button, Input, Timer } from '../common';
 import { Title, InputContainer, InputBox, Time } from './AuthStyled';
 
 const AuthPresenter = () => {
+    const [retryCount, setRetryCount] = useState(0);
+
     return (
         <>
             <InputContainer>
@@ -23,10 +24,14 @@ const AuthPresenter = () => {
                     </div>
                 </InputBox>
             </InputContainer>
-            <div css={{ flex: 1, overflow: 'hidden' }}>
-                <Time>03:00</Time>
-                <Button>문자 재발송</Button>
-            </div>
+            <Time>
+                <div>
+                    <Timer seconds={180} retryCount={retryCount} />
+                    <Button onClick={() => setRetryCount((prev) => prev + 1)}>
+                        문자 재발송
+                    </Button>
+                </div>
+            </Time>
         </>
     );
 };

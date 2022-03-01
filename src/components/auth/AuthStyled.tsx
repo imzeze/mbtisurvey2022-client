@@ -27,9 +27,18 @@ export const InputContainer = styled.div`
 `;
 
 export const Time = styled.div`
-    font-family: Montserrat;
-    font-weight: 300;
-    font-size: 200px;
-    white-space: pre;
-    height: 220px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    height: 326px;
+
+    > div {
+        position: absolute;
+        height: 100%;
+        right: -10px;
+        width: 500px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 `;

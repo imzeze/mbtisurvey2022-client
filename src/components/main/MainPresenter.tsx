@@ -45,9 +45,7 @@ const MainPresenter = () => {
                         봅시다!
                     </div>
                 </Intro>
-                <Button onClick={() => router.push('/auth')}>
-                    시작합니다!
-                </Button>
+                <Button>시작합니다!</Button>
             </Description>
             <Types>
                 <TypesBox>
@@ -76,12 +74,17 @@ const MainPresenter = () => {
                         <Highlight>P</Highlight>erceiving
                     </div>
                 </TypesBox>
-                <Image
-                    src={ArrowHeader}
-                    width="136px"
-                    height="32px"
-                    alt="arrow"
-                />
+                <div
+                    onClick={() => router.push('/auth')}
+                    css={{ cursor: 'pointer' }}
+                >
+                    <Image
+                        src={ArrowHeader}
+                        width="136px"
+                        height="32px"
+                        alt="arrow"
+                    />
+                </div>
             </Types>
             <Display>
                 <div
