@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import COLOR from '../../assets/consts/color';
-import { Button } from '../common';
+import { useRouter } from 'next/router';
+import { Button, Image } from '../common';
 import {
     Circle,
     Container,
@@ -13,12 +14,18 @@ import {
     Types,
     TypesBox,
 } from './MainStyled';
+import { ArrowHeader } from '../../assets/icons';
 
 const MainPresenter = () => {
+    const router = useRouter();
+
     return (
         <Container>
             <Description>
                 <Title>MBTI</Title>
+                <div
+                    css={{ border: `2px solid ${COLOR.WHITE}`, width: '465px' }}
+                />
                 <SubTitle>SURVEY 2022</SubTitle>
                 <Intro>
                     <div>
@@ -38,7 +45,9 @@ const MainPresenter = () => {
                         봅시다!
                     </div>
                 </Intro>
-                <Button>시작합니다!</Button>
+                <Button onClick={() => router.push('/auth')}>
+                    시작합니다!
+                </Button>
             </Description>
             <Types>
                 <TypesBox>
@@ -67,6 +76,12 @@ const MainPresenter = () => {
                         <Highlight>P</Highlight>erceiving
                     </div>
                 </TypesBox>
+                <Image
+                    src={ArrowHeader}
+                    width="136px"
+                    height="32px"
+                    alt="arrow"
+                />
             </Types>
             <Display>
                 <div
@@ -78,8 +93,8 @@ const MainPresenter = () => {
                 >
                     <Circle
                         size={190}
-                        top={10}
-                        left={8}
+                        top={15}
+                        left={20}
                         shadow={`0px 0px 60px 0px ${COLOR.REDSHADOW80}`}
                         startColor={COLOR.RED}
                         endColor={COLOR.DEEPYELLOW}
@@ -87,15 +102,15 @@ const MainPresenter = () => {
                     <Circle
                         size={332}
                         top={20}
-                        left={40}
+                        left={50}
                         shadow={`0px 0px 80px 0px ${COLOR.GREENSHADOW80}`}
                         startColor={COLOR.LIGHTGREEN}
                         endColor={COLOR.BLUEGREEN}
                     />
                     <Circle
                         size={300}
-                        top={40}
-                        left={60}
+                        top={45}
+                        left={65}
                         shadow={`0px 0px 80px 0px ${COLOR.PURPLESHADOW}`}
                         direction="to bottom right"
                         startColor={COLOR.DARKPURPLE}
@@ -104,7 +119,7 @@ const MainPresenter = () => {
                     <Circle
                         size={194}
                         top={60}
-                        left={20}
+                        left={30}
                         shadow={`0px 0px 50px 0px ${COLOR.BLUESHADOW80}`}
                         direction="to bottom left"
                         startColor={COLOR.SKYBLUE}

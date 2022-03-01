@@ -24,7 +24,6 @@ export const Container = styled.div`
 export const Description = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     width: 50%;
     padding: 96px;
     font-size: 18px;
@@ -35,14 +34,18 @@ export const Types = styled.div`
     height: 536px;
     border-left: 1px solid ${COLOR.WHITE};
     z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 70px;
 `;
 
 export const Title = styled.div`
     font-family: Montserrat;
     font-weight: 300;
-    border-bottom: 2px solid ${COLOR.WHITE};
     height: 200px;
     text-align: left;
+    margin: 0 0 16px -23px;
 
     ${isDesktop} {
         font-size: 200px;
@@ -70,7 +73,6 @@ export const TypesBox = styled.div`
     font-size: 40px;
 
     color: ${COLOR.WHITE50};
-    padding: 70px;
 
     > div {
         line-height: 50px;
