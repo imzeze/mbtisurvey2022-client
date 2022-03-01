@@ -33,31 +33,31 @@ const GlobalStyle = css`
     @font-face {
         font-family: 'Montserrat';
         font-weight: 700;
-        src: url('fonts/Montserrat-Bold.ttf') format('ttf');
+        src: url('fonts/Montserrat-Bold.ttf') format('truetype');
         font-display: fallback;
     }
     @font-face {
         font-family: 'Montserrat';
         font-weight: 500;
-        src: url('fonts/Montserrat-Medium.ttf') format('ttf');
+        src: url('fonts/Montserrat-Medium.ttf') format('truetype');
         font-display: fallback;
     }
     @font-face {
         font-family: 'Montserrat';
         font-weight: 400;
-        src: url('fonts/Montserrat-Regular.ttf') format('ttf');
+        src: url('fonts/Montserrat-Regular.ttf') format('truetype');
         font-display: fallback;
     }
     @font-face {
         font-family: 'Montserrat';
         font-weight: 300;
-        src: url('fonts/Montserrat-Light.ttf') format('ttf');
+        src: url('fonts/Montserrat-Light.ttf') format('truetype');
         font-display: fallback;
     }
     @font-face {
         font-family: 'Montserrat';
         font-weight: 200;
-        src: url('fonts/Montserrat-Thin.ttf') format('ttf');
+        src: url('fonts/Montserrat-Thin.ttf') format('truetype');
         font-display: fallback;
     }
 

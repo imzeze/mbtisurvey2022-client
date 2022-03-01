@@ -4,9 +4,9 @@ import COLOR from '../../assets/consts/color';
 
 interface LayoutProps {
     children: React.ReactNode;
-    showHeader?: Boolean;
-    showFooter?: Boolean;
-    showNav?: Boolean;
+    showHeader?: boolean;
+    showFooter?: boolean;
+    showNav?: boolean;
 }
 
 const Container = styled.div`
@@ -18,7 +18,6 @@ const Layout = ({
     children,
     showHeader = true,
     showFooter = true,
-    showNav = true,
 }: LayoutProps) => {
     return (
         <Container>
