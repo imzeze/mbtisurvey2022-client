@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { InputHTMLAttributes } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import COLOR from '../../assets/consts/color';
 
 const StyledInput = styled.input`
@@ -23,6 +24,8 @@ const StyledInput = styled.input`
 
 export default function Input({
     ...attrs
-}: InputHTMLAttributes<HTMLInputElement>) {
+}: InputHTMLAttributes<HTMLInputElement> & {
+    register?: UseFormRegisterReturn;
+}) {
     return <StyledInput {...attrs} />;
 }

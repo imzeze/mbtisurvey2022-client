@@ -1,14 +1,30 @@
 /** @jsxImportSource @emotion/react */
+import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
 
 interface StopWatchProps {
+    // 시작
+    isActive: boolean;
     // 시간
     seconds: number;
-    // 재시작
+    // 재시작 횟수
     retryCount: number;
 }
 
-const Timer = ({ seconds, retryCount }: StopWatchProps) => {
+const Clock = styled('div')`
+    font-family: Montserrat;
+    font-weight: 300;
+
+    ${isDesktop} {
+        font-size: 200px;
+    }
+    ${isMobile} {
+        font-size: 100px;
+    }
+`;
+
+const Timer = ({ isActive, seconds, retryCount }: StopWatchProps) => {
     const [time, setTime] = useState(0);
 
     useEffect(() => {
@@ -16,26 +32,22 @@ const Timer = ({ seconds, retryCount }: StopWatchProps) => {
     }, [retryCount]);
 
     useEffect(() => {
-        if (time > 0) {
-            const tick = setTimeout(() => {
-                setTime((prev) => prev - 1);
-            }, 1000);
+        if (isActive) {
+            if (time > 0) {
+                const tick = setTimeout(() => {
+                    setTime((prev) => prev - 1);
+                }, 1000);
 
-            return () => clearInterval(tick);
+                return () => clearInterval(tick);
+            }
         }
-    }, [time]);
+    }, [time, isActive]);
 
     return (
-        <div
-            css={{
-                fontFamily: 'Montserrat',
-                fontWeight: '300',
-                fontSize: '200px',
-            }}
-        >
+        <Clock>
             {`${Math.floor(time / 60)}`.padStart(2, '0')}:
             {`${time % 60}`.padStart(2, '0')}
-        </div>
+        </Clock>
     );
 };
 

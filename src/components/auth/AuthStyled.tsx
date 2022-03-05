@@ -1,4 +1,12 @@
 import styled from '@emotion/styled';
+import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
+
+export const Container = styled.div`
+    ${isDesktop} {
+        display: flex;
+        align-items: center;
+    }
+`;
 
 export const Title = styled.div`
     width: 440px;
@@ -37,7 +45,13 @@ export const Time = styled.div`
         position: absolute;
         height: 100%;
         right: -10px;
-        width: 500px;
+        ${isDesktop} {
+            width: 500px;
+        }
+        ${isMobile} {
+            width: 254px;
+        }
+
         white-space: nowrap;
         overflow: hidden;
     }
