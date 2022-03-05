@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Image } from '../common';
 import { ArrowHeader } from '../../assets/icons';
-import { CurrentSurveyStep } from '../../recoil/atoms';
+import { CurrentSurveyStepState } from '../../recoil/atoms';
 import { useRecoilValue } from 'recoil';
 
 const Container = styled.div`
@@ -18,12 +18,12 @@ const Container = styled.div`
 `;
 
 const Header = () => {
-    const currentSurveyStep = useRecoilValue(CurrentSurveyStep);
+    const currentSurveyStep = useRecoilValue(CurrentSurveyStepState);
 
     return (
         <Container>
             <Image src={ArrowHeader} width="136px" height="32px" alt="arrow" />
-            <span>{(Number(currentSurveyStep) / 5) * 100}%</span>
+            <span>{((Number(currentSurveyStep) / 6) * 100).toFixed(0)}%</span>
         </Container>
     );
 };

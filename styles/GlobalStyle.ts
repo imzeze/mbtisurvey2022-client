@@ -32,6 +32,12 @@ const GlobalStyle = css`
 
     @font-face {
         font-family: 'Montserrat';
+        font-weight: 900;
+        src: url('fonts/Montserrat-Black.ttf') format('truetype');
+        font-display: fallback;
+    }
+    @font-face {
+        font-family: 'Montserrat';
         font-weight: 700;
         src: url('fonts/Montserrat-Bold.ttf') format('truetype');
         font-display: fallback;

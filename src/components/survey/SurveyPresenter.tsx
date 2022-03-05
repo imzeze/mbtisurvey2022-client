@@ -11,15 +11,22 @@ import { Color, ColorResult, SliderPicker } from 'react-color';
 import { useState } from 'react';
 import Button from '../common/Button';
 import { useRecoilState } from 'recoil';
-import { CurrentSurveyStep } from '../../recoil/atoms';
+import { CurrentSurveyStepState } from '../../recoil/atoms';
 import COLOR from '../../assets/consts/color';
 
 // interface SurveyPresenterProps {}
 
 const SurveyPresenter = function () {
     const [favoriteColor, setFavoriteColor] = useState<Color>();
-    const [currentSurveyStep, setCurrentSurveyStep] =
-        useRecoilState(CurrentSurveyStep);
+    const [currentSurveyStep, setCurrentSurveyStep] = useRecoilState(
+        CurrentSurveyStepState,
+    );
+    const [mbti, setMbti] = useState<{
+        ei: '·' | 'E' | 'I';
+        ns: '·' | 'N' | 'S';
+        ft: '·' | 'F' | 'T';
+        pj: '·' | 'P' | 'J';
+    }>({ ei: '·', ns: '·', ft: '·', pj: '·' });
 
     const handleFavoriteColorChange = (color: ColorResult) => {
         setFavoriteColor(color.hex);
@@ -43,7 +50,125 @@ const SurveyPresenter = function () {
             >
                 나의 MBTI는
             </h1>
-            <MbtiInput />
+            <div
+                css={css`
+                    display: flex;
+                    & > button {
+                        width: 82px;
+                        height: 146px;
+                        padding: 0;
+                        background: transparent;
+                        border: 0;
+                        border-bottom: 2px solid ${COLOR.WHITE};
+                        display: flex;
+                        justify-content: center;
+                        align-items: flex-start;
+                        &:not(:last-child) {
+                            margin-right: 70px;
+                        }
+                    }
+                    & > button > span {
+                        background-clip: text;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        font-family: Montserrat;
+                        font-size: 120px;
+                        font-weight: 900;
+                        font-style: normal;
+                        line-height: 146px;
+                    }
+                `}
+            >
+                {/* mbti 입력 폼 */}
+                <button
+                    onClick={() => {
+                        if (mbti.ei === 'E') {
+                            setMbti((prev) => ({ ...prev, ei: 'I' }));
+                        } else {
+                            setMbti((prev) => ({ ...prev, ei: 'E' }));
+                        }
+                    }}
+                >
+                    <span
+                        css={css`
+                            background: linear-gradient(
+                                180deg,
+                                #ff1010 0%,
+                                #bf871a 100%
+                            );
+                            text-shadow: 0px 0px 15px rgba(255, 0, 0, 0.5);
+                        `}
+                    >
+                        {mbti.ei}
+                    </span>
+                </button>
+                <button
+                    onClick={() => {
+                        if (mbti.ns === 'N') {
+                            setMbti((prev) => ({ ...prev, ns: 'S' }));
+                        } else {
+                            setMbti((prev) => ({ ...prev, ns: 'N' }));
+                        }
+                    }}
+                >
+                    <span
+                        css={css`
+                            background: linear-gradient(
+                                180deg,
+                                #a3fe12 0%,
+                                #3088b1 100%
+                            );
+                            text-shadow: 0 0 15px rgba(113, 203, 88, 0.5);
+                        `}
+                    >
+                        {mbti.ns}
+                    </span>
+                </button>
+                <button
+                    onClick={() => {
+                        if (mbti.ft === 'F') {
+                            setMbti((prev) => ({ ...prev, ft: 'T' }));
+                        } else {
+                            setMbti((prev) => ({ ...prev, ft: 'F' }));
+                        }
+                    }}
+                >
+                    <span
+                        css={css`
+                            background: linear-gradient(
+                                180deg,
+                                #10e2ff 0%,
+                                #1a3ebf 100%
+                            );
+                            text-shadow: 0 0 15px rgba(21, 143, 223, 0.5);
+                        `}
+                    >
+                        {mbti.ft}
+                    </span>
+                </button>
+                <button
+                    onClick={() => {
+                        if (mbti.pj === 'P') {
+                            setMbti((prev) => ({ ...prev, pj: 'J' }));
+                        } else {
+                            setMbti((prev) => ({ ...prev, pj: 'P' }));
+                        }
+                    }}
+                >
+                    <span
+                        css={css`
+                            background: linear-gradient(
+                                180deg,
+                                #4a2169 0%,
+                                #a147e7 100%
+                            );
+                            text-shadow: 0 0 15px rgba(119, 53, 170, 0.5);
+                        `}
+                    >
+                        {mbti.pj}
+                    </span>
+                </button>
+            </div>
             <Button
                 css={css`
                     margin-top: 100px;
@@ -496,24 +621,6 @@ const QuestionTitle = function ({ text }: { text: string }) {
         >
             {text}
         </h2>
-    );
-};
-
-const MbtiInput = function () {
-    return (
-        <input
-            css={css`
-                width: 97px;
-                height: 146px;
-                background: transparent;
-                border: 0;
-                border-bottom: 2px solid ${COLOR.WHITE};
-                appearance: none;
-                :focus {
-                    outline: none;
-                }
-            `}
-        />
     );
 };
 

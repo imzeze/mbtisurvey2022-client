@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const CurrentSurveyStep = atom({
-    key: 'CurrentSurveyStep',
+export const CurrentSurveyStepState = atom({
+    key: 'CurrentSurveyStepState',
     default: 0,
 });
