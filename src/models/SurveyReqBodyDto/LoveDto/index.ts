@@ -3,9 +3,9 @@ export default interface LoveDto {
     // 연애 횟수
     isLoveTarget: 'STRAIGHT' | 'HOMOSEXUAL' | 'BISEXUAL';
     // 연애 대상
-    isInLove: boolean;
+    isInLove: number;
     // 현재 연애 여부
-    isMarried: boolean;
+    isMarried: number;
     // 기혼 여부
     longestLoveTime:
         | '0TO3MONTHS'

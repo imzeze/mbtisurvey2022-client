@@ -7,7 +7,7 @@ import UsersDto from './UsersDto';
 import WorkDto from './WorkDto';
 
 export default interface SurveyReqBodyDto {
-    users: UsersDto;
+    user: UsersDto;
     common: CommonDto;
     work: WorkDto;
     alcohol: AlcoholDto;

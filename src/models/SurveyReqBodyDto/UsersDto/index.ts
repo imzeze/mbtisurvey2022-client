@@ -1,6 +1,5 @@
 export default interface UsersDto {
     token: string;
-    id: number;
     mbti:
         | 'INTJ'
         | 'ENTJ'
@@ -18,5 +17,5 @@ export default interface UsersDto {
         | 'ESTP'
         | 'INFP'
         | 'ENFP';
-    phone: number;
+    phone: string;
 }

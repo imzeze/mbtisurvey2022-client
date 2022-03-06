@@ -1,5 +1,5 @@
 export default interface WorkDto {
-    isEmployed: boolean;
+    isEmployed: number;
     job: number;
     income: number;
     firstWorkYear: number;
