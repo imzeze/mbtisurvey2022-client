@@ -19,6 +19,7 @@ const Container = styled.div`
     width: 100%;
     height: 96px;
     background: transparent;
+    z-index: 1;
 
     ${isTablet} {
         height: 77px;
