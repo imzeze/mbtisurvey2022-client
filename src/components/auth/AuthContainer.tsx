@@ -5,23 +5,21 @@ import {
     signInWithPhoneNumber,
 } from 'firebase/auth';
 import AuthPresenter from './AuthPresenter';
+import { useEffect } from 'react';
 
 const AuthContainer = () => {
     const { app } = useFirebaseAuth();
     const auth = getAuth(app);
+    auth.languageCode = 'ko';
 
-    const sendAuthCode = (phone: string) => {
-        const appVerifier = new RecaptchaVerifier(
-            'sign-in-button',
-            {
-                size: 'invisible',
-            },
+    const sendAuthCode = async (phone: string) => {
+        if (!phone) return;
+        const internationalPhone = phone.slice(1);
+        signInWithPhoneNumber(
             auth,
-        );
-
-        window.recaptchaVerifier = appVerifier;
-        auth.languageCode = 'ko';
-        signInWithPhoneNumber(auth, '+82' + phone, window.recaptchaVerifier)
+            '+82' + internationalPhone,
+            window.recaptchaVerifier,
+        )
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
             })
@@ -35,7 +33,9 @@ const AuthContainer = () => {
             .confirm(data['authNumber'])
             .then((result: any) => {
                 alert('인증이 완료되었습니다.');
-                console.log(result.user, result);
+                if (result.user.accessToken) {
+                    console.log('accessToken', result.user.accessToken);
+                }
             })
             .catch((error: any) => {
                 if (error.code === 'auth/invalid-verification-code') {
@@ -47,6 +47,22 @@ const AuthContainer = () => {
                 }
             });
     };
+
+    useEffect(() => {
+        if (!window.recaptchaVerifier && auth) {
+            window.recaptchaVerifier = new RecaptchaVerifier(
+                'sign-in-button',
+                {
+                    size: 'invisible',
+                    callback: (response: any) => {
+                        // reCAPTCHA solved, allow signInWithPhoneNumber.
+                        console.log('response', response);
+                    },
+                },
+                auth,
+            );
+        }
+    }, [auth]);
 
     return (
         <AuthPresenter

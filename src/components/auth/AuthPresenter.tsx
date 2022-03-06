@@ -66,9 +66,9 @@ const AuthPresenter = ({
                                         },
                                     })}
                                 />
-                                {/* {errors['phone']?.type === 'required' && (
+                                {errors['phone']?.type === 'required' && (
                                     <div>전화번호를 입력해주세요.</div>
-                                )} */}
+                                )}
                             </div>
                             <div>
                                 <Input
@@ -112,8 +112,11 @@ const AuthPresenter = ({
                                 id="sign-in-button"
                                 type="button"
                                 onClick={() => {
-                                    setTimerActiveCount((prev) => prev + 1);
-                                    sendAuthCode(getValues('phone'));
+                                    const phone = getValues('phone');
+                                    if (phone) {
+                                        setTimerActiveCount((prev) => prev + 1);
+                                        sendAuthCode(phone);
+                                    }
                                 }}
                             >
                                 {timerActiveCount ? '문자 재발송' : '문자 발송'}
