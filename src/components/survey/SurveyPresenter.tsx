@@ -8,10 +8,13 @@ import RadioButton from '../common/RadioButton';
 import SelectBox from '../common/SelectBox';
 
 import { Color, ColorResult, SliderPicker } from 'react-color';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../common/Button';
-import { useRecoilState } from 'recoil';
-import { CurrentSurveyStepState } from '../../recoil/atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+    CurrentSurveyStepState,
+    IsShowProcessPercentState,
+} from '../../recoil/atoms';
 import COLOR from '../../assets/consts/color';
 import { useForm, UseFormRegisterReturn } from 'react-hook-form';
 import SurveyReqBodyDto from '../../models/SurveyReqBodyDto';
@@ -32,6 +35,9 @@ const SurveyPresenter = function () {
     const [currentSurveyStep, setCurrentSurveyStep] = useRecoilState(
         CurrentSurveyStepState,
     );
+    const setIsShowProcessPercent = useSetRecoilState(
+        IsShowProcessPercentState,
+    );
     const [mbti, setMbti] = useState<{
         ei: '·' | 'E' | 'I';
         ns: '·' | 'N' | 'S';
@@ -49,6 +55,11 @@ const SurveyPresenter = function () {
             UsersDto &
             WorkDto
     >();
+
+    useEffect(() => {
+        setIsShowProcessPercent(true);
+        return () => setIsShowProcessPercent(false);
+    }, []);
 
     const handleFavoriteColorChange = (color: ColorResult) => {
         setValue('personalColor', color.hex);
