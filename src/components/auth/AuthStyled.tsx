@@ -25,6 +25,8 @@ export const Title = styled.div`
     }
 
     ${isMobile} {
+        margin-top: 10px;
+        margin-bottom: 20px;
         font-size: 28px;
     }
 `;
@@ -35,6 +37,9 @@ export const InputBox = styled.div`
 
     > div {
         margin-bottom: 32px;
+        ${isMobile} {
+            margin-bottom: 10px;
+        }
     }
 `;
 

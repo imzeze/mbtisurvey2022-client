@@ -1,6 +1,6 @@
 import { useFirebaseAuth } from '../../util/usePhoneAuth';
 import Cookies from 'js-cookie';
-
+import { useRouter } from 'next/router';
 import {
     getAuth,
     RecaptchaVerifier,
@@ -13,6 +13,7 @@ import api from '../../util/api';
 const AuthContainer = () => {
     const { app } = useFirebaseAuth();
     const auth = getAuth(app);
+    const router = useRouter();
 
     auth.languageCode = 'ko';
     const sendAuthCode = async (phone: string) => {
@@ -85,6 +86,12 @@ const AuthContainer = () => {
             );
         }
     }, [auth]);
+
+    useEffect(() => {
+        if (Cookies.get('auth')) {
+            router.replace('/survey');
+        }
+    }, []);
 
     return (
         <AuthPresenter

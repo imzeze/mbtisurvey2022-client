@@ -102,13 +102,6 @@ const AuthPresenter = ({
                                 retryCount={timerActiveCount}
                             />
                             <Button
-                                css={css`
-                                    position: fixed;
-                                    margin: 0 auto;
-                                    left: 0;
-                                    right: 0;
-                                    bottom: 50px;
-                                `}
                                 id="sign-in-button"
                                 type="button"
                                 onClick={() => {

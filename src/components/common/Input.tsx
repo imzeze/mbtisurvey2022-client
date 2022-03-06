@@ -24,8 +24,8 @@ const StyledInput = styled.input`
     }
 
     ${isMobile} {
-        height: 56px;
-        font-size: 28px;
+        height: 44px;
+        font-size: 20px;
     }
 `;
 
