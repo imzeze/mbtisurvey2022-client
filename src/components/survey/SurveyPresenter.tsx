@@ -45,7 +45,6 @@ const SurveyPresenter = function () {
         ft: '·' | 'F' | 'T';
         pj: '·' | 'P' | 'J';
     }>({ ei: '·', ns: '·', ft: '·', pj: '·' });
-    const [surveyData, setSurveyData] = useState<SurveyReqBodyDto>();
 
     const { register, handleSubmit, setValue, watch } = useForm<
         AlcoholDto &
@@ -77,16 +76,6 @@ const SurveyPresenter = function () {
             top: 0,
             behavior: 'smooth',
         });
-    };
-
-    const handleFinalSubmit = async function () {
-        try {
-            await api({
-                method: 'post',
-                url: '/survey',
-                data: surveyData,
-            });
-        } catch {}
     };
 
     const surveySlide = [
@@ -254,7 +243,7 @@ const SurveyPresenter = function () {
                     );
                     handleClickNext();
                 }}
-                type="submit"
+                type="button"
             >
                 다음
             </Button>
@@ -312,6 +301,7 @@ const SurveyPresenter = function () {
                     }
                 `}
                 onClick={handleClickNext}
+                type="button"
             >
                 다음
             </Button>
@@ -380,6 +370,7 @@ const SurveyPresenter = function () {
                     }
                 `}
                 onClick={handleClickNext}
+                type="button"
             >
                 다음
             </Button>
@@ -422,6 +413,7 @@ const SurveyPresenter = function () {
                     }
                 `}
                 onClick={handleClickNext}
+                type="button"
             >
                 다음
             </Button>
@@ -500,6 +492,7 @@ const SurveyPresenter = function () {
                     }
                 `}
                 onClick={handleClickNext}
+                type="button"
             >
                 다음
             </Button>
@@ -579,20 +572,12 @@ const SurveyPresenter = function () {
                     }
                 `}
                 onClick={handleClickNext}
+                type="button"
             >
                 다음
             </Button>
         </>,
         <>
-            <h1
-                css={css`
-                    margin-bottom: 70px;
-                `}
-            >
-                하려면 하고
-                <br />
-                말려면 마세요 ㅋ
-            </h1>
             <QuestionContainer>
                 <QuestionTitle text="롤 포지션" />
                 <RadioButtons
@@ -611,6 +596,51 @@ const SurveyPresenter = function () {
                     ]}
                     itemWidth="100px"
                     register={register('leagueOfLegendsPosition')}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="롤 티어" />
+                <RadioButtons
+                    items={[
+                        { value: 'CHALLENGER', text: '챌린져' },
+                        { value: 'MASTER', text: '마스터' },
+                        { value: 'DIAMOND', text: '다이아' },
+                    ]}
+                    itemWidth={isMobileSize ? '80px' : '100px'}
+                    register={register('leagueOfLegendsTier')}
+                />
+                <RadioButtons
+                    items={[
+                        { value: 'PLATINUM', text: '플래티넘' },
+                        { value: 'GOLD', text: '골드' },
+                    ]}
+                    itemWidth="120px"
+                    register={register('leagueOfLegendsTier')}
+                />
+                <RadioButtons
+                    items={[
+                        { value: 'SILVER', text: '실버' },
+                        { value: 'BRONZE', text: '브론즈' },
+                        { value: 'IRON', text: '아이언' },
+                    ]}
+                    itemWidth={isMobileSize ? '80px' : '100px'}
+                    register={register('leagueOfLegendsTier')}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="스타크래프트 종족" />
+                <RadioButtons
+                    items={[
+                        { value: 'TERRAN', text: '테란' },
+                        { value: 'PROTOSS', text: '프로토스' },
+                    ]}
+                    itemWidth="120px"
+                    register={register('starcraftRace')}
+                />
+                <RadioButtons
+                    items={[{ value: 'ZERG', text: '저그' }]}
+                    itemWidth="120px"
+                    register={register('starcraftRace')}
                 />
             </QuestionContainer>
             <QuestionContainer>
@@ -642,7 +672,7 @@ const SurveyPresenter = function () {
                         margin-top: 30px;
                     }
                 `}
-                onClick={handleFinalSubmit}
+                type="submit"
             >
                 제출
             </Button>
@@ -651,7 +681,7 @@ const SurveyPresenter = function () {
 
     return (
         <FormContainer
-            onSubmit={handleSubmit((data) => {
+            onSubmit={handleSubmit(async (data) => {
                 // users
                 const { token, id, mbti, phone }: UsersDto = data;
                 // common
@@ -698,7 +728,7 @@ const SurveyPresenter = function () {
                 const { isEmployed, job, income, firstWorkYear }: WorkDto =
                     data;
 
-                setSurveyData({
+                const surveyData: SurveyReqBodyDto = {
                     users: {
                         token,
                         id,
@@ -721,13 +751,14 @@ const SurveyPresenter = function () {
                         isMarried,
                         longestLoveTime,
                     },
+                    // todo: 뷰 개발 필요
                     residence: {
-                        residenceType,
-                        isOnlyChild,
-                        allBrothers,
-                        allSisters,
-                        myOrder,
-                        currentAddress,
+                        residenceType: 'SINGLE',
+                        isOnlyChild: true,
+                        allBrothers: 1,
+                        allSisters: 2,
+                        myOrder: 3,
+                        currentAddress: '서울',
                     },
                     work: {
                         isEmployed,
@@ -746,7 +777,15 @@ const SurveyPresenter = function () {
                         starcraftRace,
                         favoriteMbti,
                     },
-                });
+                };
+
+                try {
+                    await api({
+                        method: 'post',
+                        url: '/survey',
+                        data: surveyData,
+                    });
+                } catch {}
             })}
         >
             {surveySlide.map((elem, idx) => {
