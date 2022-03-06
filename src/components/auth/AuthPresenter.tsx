@@ -10,7 +10,7 @@ const AuthPresenter = ({
     sendAuthCode,
 }: {
     confirmAuthCode: (data: { [x: string]: string }) => void;
-    sendAuthCode: (phone: string) => void;
+    sendAuthCode: (phone: string) => Promise<boolean>;
 }) => {
     const {
         register,
@@ -104,11 +104,17 @@ const AuthPresenter = ({
                             <Button
                                 id="sign-in-button"
                                 type="button"
-                                onClick={() => {
+                                onClick={async () => {
                                     const phone = getValues('phone');
                                     if (phone) {
-                                        setTimerActiveCount((prev) => prev + 1);
-                                        sendAuthCode(phone);
+                                        const result = await sendAuthCode(
+                                            phone,
+                                        );
+                                        if (result) {
+                                            setTimerActiveCount(
+                                                (prev) => prev + 1,
+                                            );
+                                        }
                                     }
                                 }}
                             >

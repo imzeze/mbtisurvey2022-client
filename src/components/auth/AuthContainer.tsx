@@ -1,6 +1,4 @@
 import { useFirebaseAuth } from '../../util/usePhoneAuth';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 import {
     getAuth,
     RecaptchaVerifier,
@@ -9,6 +7,8 @@ import {
 import AuthPresenter from './AuthPresenter';
 import { useEffect } from 'react';
 import api from '../../util/api';
+import { GetResponse } from '../../models/ResponseDto';
+import { useRouter } from 'next/router';
 
 const AuthContainer = () => {
     const { app } = useFirebaseAuth();
@@ -17,31 +17,32 @@ const AuthContainer = () => {
 
     auth.languageCode = 'ko';
     const sendAuthCode = async (phone: string) => {
-        if (!phone) return;
-        const response = await api({
-            method: 'get',
-            url: 'users/checkPhone',
-            data: {
-                phone,
-            },
+        if (!phone) return false;
+        const response = await api.get<GetResponse>('/users/checkphone', {
+            params: { phone },
         });
 
         if (response.status === 200) {
-            const internationalPhone = phone.slice(1);
-            signInWithPhoneNumber(
-                auth,
-                '+82' + internationalPhone,
-                window.recaptchaVerifier,
-            )
-                .then((confirmationResult) => {
-                    window.confirmationResult = confirmationResult;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            alert('이미 참여한 사용자 입니다.');
+            if (!response.data.payload) {
+                const internationalPhone = phone.slice(1);
+                signInWithPhoneNumber(
+                    auth,
+                    '+82' + internationalPhone,
+                    window.recaptchaVerifier,
+                )
+                    .then((confirmationResult) => {
+                        window.confirmationResult = confirmationResult;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                return true;
+            } else {
+                alert('이미 참여한 사용자 입니다.');
+                return false;
+            }
         }
+        return false;
     };
 
     const confirmAuthCode = (data: { [x: string]: string }) => {
@@ -50,7 +51,14 @@ const AuthContainer = () => {
             .then((result: any) => {
                 alert('인증이 완료되었습니다.');
                 if (result.user.accessToken) {
-                    Cookies.set('auth', result.user.accessToken);
+                    // 클라이언트 API
+                    api({
+                        method: 'post',
+                        baseURL: router.basePath,
+                        url: '/api/auth',
+                        data: { auth: result.user.accessToken },
+                    });
+
                     api({
                         method: 'post',
                         url: '/tokens',
@@ -58,6 +66,8 @@ const AuthContainer = () => {
                             token: result.user.accessToken,
                         },
                     });
+
+                    router.replace('/survey');
                 }
             })
             .catch((error: any) => {
@@ -86,12 +96,6 @@ const AuthContainer = () => {
             );
         }
     }, [auth]);
-
-    useEffect(() => {
-        if (Cookies.get('auth')) {
-            router.replace('/survey');
-        }
-    }, []);
 
     return (
         <AuthPresenter

@@ -4,7 +4,7 @@ const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-api.defaults.timeout = 2500;
+api.defaults.timeout = 10000;
 
 api.defaults.headers.post['Content-Type'] = 'application-json';
 
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
-        const res = response.data;
+        const res = response;
         return res;
     },
     (error) => {

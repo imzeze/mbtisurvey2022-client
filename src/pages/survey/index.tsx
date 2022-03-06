@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import { Layout, Template } from '../../components/layout';
 import SurveyContainer from '../../components/survey/SurveyContainer';
 import { useWindowSize } from '../../util/useWindowSize';
@@ -17,6 +17,22 @@ const SurveyPage: NextPage = () => {
             </Template>
         </Layout>
     );
+};
+
+/**
+ * 쿠키에 토큰없으면 인증 페이지로
+ * @author Copotter
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    if (!context.req.cookies.auth) {
+        return {
+            redirect: {
+                destination: '/auth',
+                permanent: false,
+            },
+        };
+    }
+    return { props: { auth: context.req.cookies.auth || null } };
 };
 
 export default SurveyPage;
