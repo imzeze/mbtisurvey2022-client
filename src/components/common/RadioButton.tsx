@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import COLOR from '../../assets/consts/color';
 import Flex from './Flex';
 
@@ -50,14 +51,19 @@ interface RadioButtonProps
         HTMLInputElement
     > {
     children: string;
+    register?: UseFormRegisterReturn;
 }
 
-export default function RadioButton({ children, ...attrs }: RadioButtonProps) {
+export default function RadioButton({
+    children,
+    register,
+    ...attrs
+}: RadioButtonProps) {
     const random = String(Math.random() * 5);
 
     return (
         <Flex>
-            <StyledInput id={random} type="radio" {...attrs} />
+            <StyledInput id={random} type="radio" {...attrs} {...register} />
             <label htmlFor={random}>{children}</label>
         </Flex>
     );

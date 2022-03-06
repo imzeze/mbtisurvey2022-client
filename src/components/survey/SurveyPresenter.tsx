@@ -13,6 +13,17 @@ import Button from '../common/Button';
 import { useRecoilState } from 'recoil';
 import { CurrentSurveyStepState } from '../../recoil/atoms';
 import COLOR from '../../assets/consts/color';
+import { useForm, UseFormRegisterReturn } from 'react-hook-form';
+import SurveyReqBodyDto from '../../models/SurveyReqBodyDto';
+import UsersDto from '../../models/SurveyReqBodyDto/UsersDto';
+import AlcoholDto from '../../models/SurveyReqBodyDto/AlcoholDto';
+import CommonDto from '../../models/SurveyReqBodyDto/CommonDto';
+import LoveDto from '../../models/SurveyReqBodyDto/LoveDto';
+import EtcDto from '../../models/SurveyReqBodyDto/EtcDto';
+import ResidenceDto from '../../models/SurveyReqBodyDto/ResidenceDto';
+import WorkDto from '../../models/SurveyReqBodyDto/WorkDto';
+import { ApiError } from 'next/dist/server/api-utils';
+import axios from 'axios';
 
 // interface SurveyPresenterProps {}
 
@@ -27,13 +38,25 @@ const SurveyPresenter = function () {
         ft: '·' | 'F' | 'T';
         pj: '·' | 'P' | 'J';
     }>({ ei: '·', ns: '·', ft: '·', pj: '·' });
+    const [surveyData, setSurveyData] = useState<SurveyReqBodyDto>();
+
+    const { register, handleSubmit, setValue, watch } = useForm<
+        AlcoholDto &
+            CommonDto &
+            EtcDto &
+            LoveDto &
+            ResidenceDto &
+            UsersDto &
+            WorkDto
+    >();
 
     const handleFavoriteColorChange = (color: ColorResult) => {
+        setValue('personalColor', color.hex);
         setFavoriteColor(color.hex);
     };
 
     const handleClickNext = function () {
-        if (currentSurveyStep >= surveyArr.length - 1) return;
+        if (currentSurveyStep >= surveySlide.length - 1) return;
         setCurrentSurveyStep((prev) => prev + 1);
         window.scrollTo({
             top: 0,
@@ -41,7 +64,12 @@ const SurveyPresenter = function () {
         });
     };
 
-    const surveyArr = [
+    const handleFinalSubmit = async function () {
+        // await axios.post()
+        return;
+    };
+
+    const surveySlide = [
         <>
             <h1
                 css={css`
@@ -66,6 +94,7 @@ const SurveyPresenter = function () {
                         &:not(:last-child) {
                             margin-right: 70px;
                         }
+                        cursor: pointer;
                     }
                     & > button > span {
                         background-clip: text;
@@ -81,6 +110,7 @@ const SurveyPresenter = function () {
             >
                 {/* mbti 입력 폼 */}
                 <button
+                    type="button"
                     onClick={() => {
                         if (mbti.ei === 'E') {
                             setMbti((prev) => ({ ...prev, ei: 'I' }));
@@ -103,6 +133,7 @@ const SurveyPresenter = function () {
                     </span>
                 </button>
                 <button
+                    type="button"
                     onClick={() => {
                         if (mbti.ns === 'N') {
                             setMbti((prev) => ({ ...prev, ns: 'S' }));
@@ -125,6 +156,7 @@ const SurveyPresenter = function () {
                     </span>
                 </button>
                 <button
+                    type="button"
                     onClick={() => {
                         if (mbti.ft === 'F') {
                             setMbti((prev) => ({ ...prev, ft: 'T' }));
@@ -147,6 +179,7 @@ const SurveyPresenter = function () {
                     </span>
                 </button>
                 <button
+                    type="button"
                     onClick={() => {
                         if (mbti.pj === 'P') {
                             setMbti((prev) => ({ ...prev, pj: 'J' }));
@@ -173,7 +206,21 @@ const SurveyPresenter = function () {
                 css={css`
                     margin-top: 100px;
                 `}
-                onClick={handleClickNext}
+                onClick={() => {
+                    if (
+                        mbti.ei === '·' ||
+                        mbti.ft === '·' ||
+                        mbti.ns === '·' ||
+                        mbti.pj === '·'
+                    )
+                        return;
+                    setValue(
+                        'mbti',
+                        `${mbti.ei}${mbti.ns}${mbti.ft}${mbti.pj}`,
+                    );
+                    handleClickNext();
+                }}
+                type="submit"
             >
                 다음
             </Button>
@@ -191,37 +238,34 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="성별" />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'male', text: '남성' },
                         { value: 'female', text: '여성' },
                         { value: 'mtf', text: 'MTF' },
                     ]}
                     itemWidth="100px"
+                    register={register('gender')}
                 />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'ftm', text: 'FTM' },
                         { value: 'etc', text: '기타' },
                     ]}
                     itemWidth="100px"
+                    register={register('gender')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="태어난 해" />
-                <Input type="number" placeholder="1995 (4자리 입력)" />
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="직종" />
-                <SelectBox>
-                    <option value="">클릭하여 선택</option>
-                    <option value="police">경찰</option>
-                </SelectBox>
+                <Input
+                    type="number"
+                    placeholder="1995 (4자리 입력)"
+                    register={register('birth')}
+                />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="취미/특기" />
-                <SelectBox>
+                <SelectBox register={register('hobby')}>
                     <option value="">클릭하여 선택</option>
                     <option value="police">기타</option>
                 </SelectBox>
@@ -239,41 +283,41 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="사용하는 스마트폰" />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'android', text: '안드로이드' },
                         { value: 'ios', text: 'iOS' },
                     ]}
                     itemWidth="150px"
+                    register={register('smartphoneOS')}
                 />
                 <RadioButtons
-                    name="mbti"
                     items={[{ value: 'etc', text: '기타' }]}
                     itemWidth="150px"
+                    register={register('smartphoneOS')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="정치성향" />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'bosu', text: '보수' },
                         { value: 'jinbo', text: '진보' },
                     ]}
                     itemWidth="150px"
+                    register={register('politics')}
                 />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'mid', text: '중도' },
                         { value: 'no', text: '관심없음' },
                     ]}
                     itemWidth="150px"
+                    register={register('politics')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="종교" />
-                <SelectBox>
+                <SelectBox register={register('religion')}>
                     <option value="">클릭하여 선택</option>
                     <option value="jesus">기독교</option>
                 </SelectBox>
@@ -303,15 +347,23 @@ const SurveyPresenter = function () {
         <>
             <QuestionContainer>
                 <QuestionTitle text="주량" />
-                <Input type="number" placeholder="숫자 입력 (회)" />
+                <Input
+                    type="number"
+                    placeholder="숫자 입력 (회)"
+                    register={register('alcoholPerOnce')}
+                />
             </QuestionContainer>
             <QuestionContainer>
-                <QuestionTitle text="주량" />
-                <Input type="number" placeholder="숫자 입력 (회)" />
+                <QuestionTitle text="음주 횟수 (1주)" />
+                <Input
+                    type="number"
+                    placeholder="숫자 입력 (회)"
+                    register={register('alcoholPerWeek')}
+                />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="좋아하는 술" />
-                <SelectBox>
+                <SelectBox register={register('favoriteAlcohol')}>
                     <option value="">클릭하여 선택</option>
                     <option value="soju">소주</option>
                     <option value="beer">맥주</option>
@@ -335,17 +387,17 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="현재 재직 여부" />
                 <RadioButtons
-                    name="mbti"
                     items={[
                         { value: 'yes', text: '예' },
                         { value: 'no', text: '아니오' },
                     ]}
                     itemWidth="150px"
+                    register={register('isEmployed')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="직종" />
-                <SelectBox>
+                <SelectBox register={register('job')}>
                     <option value="">클릭하여 선택</option>
                     <option value="soju">소주</option>
                     <option value="beer">맥주</option>
@@ -359,39 +411,43 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="소득 수준 (단위:원)" />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '2천만 ~ 3천만' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '3천만 ~ 4천만' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '4천만 ~ 6천만' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '6천만 ~ 8천만' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '8천만 ~ 1억' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: 'yes', text: '1억 이상' }]}
                     itemWidth="200px"
+                    register={register('income')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="첫 출근 연도" />
-                <Input type="number" placeholder="숫자 네자리 입력" />
+                <Input
+                    type="number"
+                    placeholder="숫자 네자리 입력"
+                    register={register('firstWorkYear')}
+                />
             </QuestionContainer>
             <Button
                 css={css`
@@ -410,63 +466,63 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="연애 대상" />
                 <RadioButtons
-                    name="money"
                     items={[
                         { value: 'other', text: '이성' },
                         { value: 'same', text: '동성' },
                         { value: 'both', text: '양성' },
                     ]}
                     itemWidth="100px"
+                    register={register('isLoveTarget')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="현재 연애 여부 (기혼 포함)" />
                 <RadioButtons
-                    name="inlove"
                     items={[
                         { value: 'yes', text: '예' },
                         { value: 'no', text: '아니오' },
                     ]}
                     itemWidth="100px"
+                    register={register('isInLove')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="기혼 여부" />
                 <RadioButtons
-                    name="marry"
                     items={[
                         { value: 'yes', text: '예' },
                         { value: 'no', text: '아니오' },
                     ]}
                     itemWidth="100px"
+                    register={register('isMarried')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="가장 긴 연애 기간" />
                 <RadioButtons
-                    name="money"
                     items={[{ value: '1', text: '0 ~ 3 개월' }]}
                     itemWidth="200px"
+                    register={register('longestLoveTime')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: '2', text: '3 ~ 6 개월' }]}
                     itemWidth="200px"
+                    register={register('longestLoveTime')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: '3', text: '6 ~ 12 개월' }]}
                     itemWidth="200px"
+                    register={register('longestLoveTime')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: '4', text: '1 ~ 3 년' }]}
                     itemWidth="200px"
+                    register={register('longestLoveTime')}
                 />
                 <RadioButtons
-                    name="money"
                     items={[{ value: '5', text: '3년 이상' }]}
                     itemWidth="200px"
+                    register={register('longestLoveTime')}
                 />
             </QuestionContainer>
             <Button
@@ -491,26 +547,26 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="롤 포지션" />
                 <RadioButtons
-                    name="inlove"
                     items={[
                         { value: 'top', text: '탑' },
                         { value: 'jug', text: '정글' },
                         { value: 'mid', text: '미드' },
                     ]}
                     itemWidth="100px"
+                    register={register('leagueOfLegendsPosition')}
                 />
                 <RadioButtons
-                    name="inlove"
                     items={[
                         { value: 'adc', text: '원딜' },
                         { value: 'sup', text: '서포터' },
                     ]}
                     itemWidth="100px"
+                    register={register('leagueOfLegendsPosition')}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="선호 MBTI" />
-                <SelectBox>
+                <SelectBox register={register('favoriteMbti')}>
                     <option value="">클릭하여 선택</option>
                     <option value="infp">INFP</option>
                     <option value="infj">INFJ</option>
@@ -534,24 +590,139 @@ const SurveyPresenter = function () {
                 css={css`
                     margin-top: 100px;
                 `}
-                onClick={handleClickNext}
+                onClick={handleSubmit}
             >
-                다음
+                제출
             </Button>
         </>,
     ];
 
-    return <FormContainer>{surveyArr[currentSurveyStep]}</FormContainer>;
+    return (
+        <FormContainer
+            onSubmit={handleSubmit((data) => {
+                // users
+                const { token, id, mbti, phone }: UsersDto = data;
+                // common
+                const {
+                    gender,
+                    birth,
+                    personalColor,
+                    hobby,
+                    smartphoneOS,
+                    politics,
+                    religion,
+                }: CommonDto = data;
+                // etc
+                const {
+                    leagueOfLegendsPosition,
+                    leagueOfLegendsTier,
+                    starcraftRace,
+                    favoriteMbti,
+                }: EtcDto = data;
+                // love
+                const {
+                    loveCount,
+                    isLoveTarget,
+                    isInLove,
+                    isMarried,
+                    longestLoveTime,
+                }: LoveDto = data;
+                // residence
+                const {
+                    residenceType,
+                    isOnlyChild,
+                    allBrothers,
+                    allSisters,
+                    myOrder,
+                    currentAddress,
+                }: ResidenceDto = data;
+                // alcohol
+                const {
+                    alcoholPerOnce,
+                    alcoholPerWeek,
+                    favoriteAlcohol,
+                }: AlcoholDto = data;
+                // work
+                const { isEmployed, job, income, firstWorkYear }: WorkDto =
+                    data;
+
+                setSurveyData({
+                    users: {
+                        token,
+                        id,
+                        mbti,
+                        phone,
+                    },
+                    common: {
+                        gender,
+                        birth,
+                        personalColor,
+                        hobby,
+                        smartphoneOS,
+                        politics,
+                        religion,
+                    },
+                    love: {
+                        loveCount,
+                        isLoveTarget,
+                        isInLove,
+                        isMarried,
+                        longestLoveTime,
+                    },
+                    residence: {
+                        residenceType,
+                        isOnlyChild,
+                        allBrothers,
+                        allSisters,
+                        myOrder,
+                        currentAddress,
+                    },
+                    work: {
+                        isEmployed,
+                        job,
+                        income,
+                        firstWorkYear,
+                    },
+                    alcohol: {
+                        alcoholPerOnce,
+                        alcoholPerWeek,
+                        favoriteAlcohol,
+                    },
+                    etc: {
+                        leagueOfLegendsPosition,
+                        leagueOfLegendsTier,
+                        starcraftRace,
+                        favoriteMbti,
+                    },
+                });
+            })}
+        >
+            {surveySlide.map((elem, idx) => {
+                return (
+                    <div
+                        key={idx}
+                        css={css`
+                            display: ${idx === currentSurveyStep
+                                ? 'block'
+                                : 'none'};
+                        `}
+                    >
+                        {elem}
+                    </div>
+                );
+            })}
+        </FormContainer>
+    );
 };
 
 const RadioButtons = function ({
-    name,
     items,
     itemWidth,
+    register,
 }: {
-    name: string;
     items: { value: string; text: string }[];
     itemWidth: string;
+    register?: UseFormRegisterReturn;
 }) {
     return (
         <div
@@ -570,7 +741,7 @@ const RadioButtons = function ({
                             width: ${itemWidth};
                         `}
                     >
-                        <RadioButton name={name} value={elem.value}>
+                        <RadioButton value={elem.value} register={register}>
                             {elem.text}
                         </RadioButton>
                     </Item>
@@ -580,7 +751,7 @@ const RadioButtons = function ({
     );
 };
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     height: 100%;
     display: flex;
     flex-direction: column;

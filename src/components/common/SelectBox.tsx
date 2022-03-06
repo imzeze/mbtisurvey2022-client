@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import COLOR from '../../assets/consts/color';
 
 const StyledSelect = styled.select`
@@ -26,8 +27,17 @@ interface SelectBoxProps
         HTMLSelectElement
     > {
     children: React.ReactNode;
+    register?: UseFormRegisterReturn;
 }
 
-export default function SelectBox({ children, ...attrs }: SelectBoxProps) {
-    return <StyledSelect {...attrs}>{children}</StyledSelect>;
+export default function SelectBox({
+    children,
+    register,
+    ...attrs
+}: SelectBoxProps) {
+    return (
+        <StyledSelect {...register} {...attrs}>
+            {children}
+        </StyledSelect>
+    );
 }
