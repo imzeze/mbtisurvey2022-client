@@ -25,8 +25,7 @@ import LoveDto from '../../models/SurveyReqBodyDto/LoveDto';
 import EtcDto from '../../models/SurveyReqBodyDto/EtcDto';
 import ResidenceDto from '../../models/SurveyReqBodyDto/ResidenceDto';
 import WorkDto from '../../models/SurveyReqBodyDto/WorkDto';
-import { ApiError } from 'next/dist/server/api-utils';
-import axios from 'axios';
+import api from '../../util/api';
 
 // interface SurveyPresenterProps {}
 
@@ -76,8 +75,13 @@ const SurveyPresenter = function () {
     };
 
     const handleFinalSubmit = async function () {
-        // await axios.post()
-        return;
+        try {
+            await api({
+                method: 'post',
+                url: '/survey',
+                data: surveyData,
+            });
+        } catch {}
     };
 
     const surveySlide = [
@@ -601,7 +605,7 @@ const SurveyPresenter = function () {
                 css={css`
                     margin-top: 100px;
                 `}
-                onClick={handleSubmit}
+                onClick={handleFinalSubmit}
             >
                 제출
             </Button>
