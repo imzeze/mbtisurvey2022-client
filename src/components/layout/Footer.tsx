@@ -14,6 +14,7 @@ const Container = styled.div`
     position: fixed;
     bottom: 0;
     z-index: 2;
+    pointer-events: none;
 `;
 
 const Footer = () => {

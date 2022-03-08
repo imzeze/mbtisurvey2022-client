@@ -2,9 +2,7 @@
 import { css } from '@emotion/react';
 
 import styled from '@emotion/styled';
-import Flex from '../common/Flex';
 import Input from '../common/Input';
-import RadioButton from '../common/RadioButton';
 import SelectBox from '../common/SelectBox';
 
 import { Color, ColorResult, SliderPicker } from 'react-color';
@@ -16,7 +14,7 @@ import {
     IsShowProcessPercentState,
 } from '../../recoil/atoms';
 import COLOR from '../../assets/consts/color';
-import { useForm, UseFormRegisterReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import SurveyReqBodyDto from '../../models/SurveyReqBodyDto';
 import UsersDto from '../../models/SurveyReqBodyDto/UsersDto';
 import AlcoholDto from '../../models/SurveyReqBodyDto/AlcoholDto';
@@ -28,7 +26,8 @@ import WorkDto from '../../models/SurveyReqBodyDto/WorkDto';
 import api from '../../util/api';
 import { isMobile } from '../../assets/consts/mediaQuery';
 import { useWindowSize } from '../../util/useWindowSize';
-import Cookies from 'js-cookie';
+import RadioButtons from '../common/RadioButtons';
+import YNRadioButton from '../common/YNRadioButton';
 
 // interface SurveyPresenterProps {}
 
@@ -268,7 +267,7 @@ const SurveyPresenter = function () {
                         { value: 'MTF', text: 'MTF' },
                     ]}
                     itemWidth={isMobileSize ? '80px' : '100px'}
-                    register={register('gender')}
+                    register={register('gender', { required: true })}
                 />
                 <RadioButtons
                     items={[
@@ -276,7 +275,7 @@ const SurveyPresenter = function () {
                         { value: 'ETC', text: '기타' },
                     ]}
                     itemWidth="100px"
-                    register={register('gender')}
+                    register={register('gender', { required: true })}
                 />
             </QuestionContainer>
             <QuestionContainer>
@@ -286,15 +285,91 @@ const SurveyPresenter = function () {
                     placeholder="1995 (4자리 입력)"
                     register={register('birth', {
                         valueAsNumber: true,
+                        required: true,
                     })}
                 />
             </QuestionContainer>
             <QuestionContainer>
+                <QuestionTitle text="좋아하는 색상" />
+                <div
+                    css={css`
+                        margin-top: 10px;
+                    `}
+                >
+                    <SliderPicker
+                        color={favoriteColor}
+                        onChangeComplete={handleFavoriteColorChange}
+                    />
+                </div>
+            </QuestionContainer>
+            <QuestionContainer>
                 <QuestionTitle text="취미/특기" />
-                <SelectBox register={register('hobby')}>
-                    <option value="">클릭하여 선택</option>
-                    <option value="SPORTS">스포츠</option>
-                </SelectBox>
+                <SelectBox
+                    register={register('hobby', { required: true })}
+                    options={[
+                        // todo 각 항목 text 맞는지 체크
+                        { value: '', text: '클릭하여 선택' },
+                        { value: 'SPORTS', text: '스포츠' },
+                        { value: 'LANGUAGE', text: '언어' },
+                        { value: 'INVESTING', text: '투자' },
+                        { value: 'COOKING', text: '요리' },
+                        { value: 'COMPUTER', text: '컴퓨터' },
+                        { value: 'MUSIC', text: '음악' },
+                        { value: 'PHOTOGRAPHY', text: '사진' },
+                        { value: 'FASHION', text: '패션' },
+                        { value: 'DIY', text: 'DIY' },
+                        { value: 'MARKETING', text: '마케팅' },
+                        { value: 'ART', text: '예술' },
+                        { value: 'SUBJECT', text: '마케팅' },
+                        { value: 'CODING', text: '코딩' },
+                        { value: 'FINANCE', text: '금융' },
+                        { value: 'DANCE', text: '춤' },
+                        { value: 'BUSINESS', text: '비즈니스' },
+                        { value: 'DATA', text: '데이터' },
+                        { value: 'ETC', text: '기타' },
+                    ]}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="사용하는 스마트폰" />
+                <RadioButtons
+                    items={[
+                        { value: 'ANDROID', text: '안드로이드' },
+                        { value: 'IOS', text: 'iOS' },
+                        { value: 'ETC', text: '기타' },
+                    ]}
+                    itemWidth={isMobileSize ? '120px' : '150px'}
+                    register={register('smartphoneOS', { required: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="정치성향" />
+                <RadioButtons
+                    items={[
+                        { value: 'LEFT', text: '진보' },
+                        { value: 'RIGHT', text: '보수' },
+                        { value: 'MIDDLE', text: '중도' },
+                    ]}
+                    itemWidth={isMobileSize ? '80px' : '100px'}
+                    register={register('politics', { required: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="종교" />
+                <SelectBox
+                    register={register('religion', { required: true })}
+                    options={[
+                        { value: '', text: '클릭하여 선택' },
+                        { value: 'NONE', text: '무교' },
+                        { value: 'CHRISTIAN', text: '기독교' },
+                        { value: 'CATHOLIC', text: '가톨릭' },
+                        { value: 'BUDDHIST', text: '불교' },
+                        { value: 'MUSLIM', text: '이슬람' },
+                        { value: 'WONBUDDHIST', text: '원불교' },
+                        { value: 'HINDUISM', text: '힌두교' },
+                        { value: 'ETC', text: '기타' },
+                    ]}
+                />
             </QuestionContainer>
             <Button
                 css={css`
@@ -311,53 +386,88 @@ const SurveyPresenter = function () {
         </>,
         <>
             <QuestionContainer>
-                <QuestionTitle text="사용하는 스마트폰" />
-                <RadioButtons
-                    items={[
-                        { value: 'ANDROID', text: '안드로이드' },
-                        { value: 'IOS', text: 'iOS' },
-                        { value: 'ETC', text: '기타' },
+                <QuestionTitle text="현재 재직 여부" />
+                <YNRadioButton
+                    width={isMobileSize ? '120px' : '150px'}
+                    register={register('isEmployed', { required: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="직종" />
+                <SelectBox
+                    register={register('job', { required: true })}
+                    options={[
+                        { value: '', text: '클릭하여 선택' },
+                        { value: '01', text: '관리직' },
+                        { value: '02', text: '경영/회계/사무' },
+                        { value: '03', text: '금융/보험' },
+                        { value: '04', text: '교육/자연과학/사회과학' },
+                        { value: '05', text: '법률/경찰/소방/교도' },
+                        { value: '06', text: '보건/의료' },
+                        { value: '07', text: '사회복지/종교' },
+                        { value: '08', text: '문화/예술/디자인/방송' },
+                        { value: '09', text: '운전/운송' },
+                        { value: '10', text: '영업/판매' },
+                        { value: '11', text: '경비/청소' },
+                        { value: '12', text: '미용/숙박/여행/오락/스포츠' },
+                        { value: '13', text: '음식/서비스' },
+                        { value: '14', text: '건설' },
+                        { value: '15', text: '기계' },
+                        { value: '16', text: '재료' },
+                        { value: '17', text: '화학' },
+                        { value: '18', text: '섬유/의복' },
+                        { value: '19', text: '전기/전자' },
+                        { value: '20', text: '정보통신' },
+                        { value: '21', text: '식품가공' },
+                        { value: '22', text: '환경/인쇄/목재/가구/공예/생산' },
+                        { value: '23', text: '농림어업' },
+                        { value: '24', text: '군인' },
                     ]}
-                    itemWidth={isMobileSize ? '120px' : '150px'}
-                    register={register('smartphoneOS')}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="소득 수준 (단위:원)" />
+                <RadioButtons
+                    items={[{ value: '2000', text: '2천만 ~ 3천만' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
                 />
                 <RadioButtons
-                    items={[{ value: 'etc', text: '기타' }]}
-                    itemWidth={isMobileSize ? '120px' : '150px'}
-                    register={register('smartphoneOS')}
+                    items={[{ value: '3000', text: '3천만 ~ 4천만' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
                 />
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="정치성향" />
                 <RadioButtons
-                    items={[
-                        { value: 'LEFT', text: '진보' },
-                        { value: 'MIDDLE', text: '중도' },
-                        { value: 'RIGHT', text: '보수' },
-                    ]}
-                    itemWidth={isMobileSize ? '80px' : '100px'}
-                    register={register('politics')}
+                    items={[{ value: '4000', text: '4천만 ~ 6천만' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
+                />
+                <RadioButtons
+                    items={[{ value: '6000', text: '6천만 ~ 8천만' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
+                />
+                <RadioButtons
+                    items={[{ value: '8000', text: '8천만 ~ 1억' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
+                />
+                <RadioButtons
+                    items={[{ value: '10000', text: '1억 이상' }]}
+                    itemWidth="200px"
+                    register={register('income', { required: true })}
                 />
             </QuestionContainer>
             <QuestionContainer>
-                <QuestionTitle text="종교" />
-                <SelectBox register={register('religion')}>
-                    <option value="">클릭하여 선택</option>
-                    <option value="CHRISTIAN">기독교</option>
-                </SelectBox>
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="좋아하는 색상" />
-                <div
-                    css={css`
-                        margin-top: 10px;
-                    `}
-                >
-                    <SliderPicker
-                        color={favoriteColor}
-                        onChangeComplete={handleFavoriteColorChange}
-                    />
-                </div>
+                <QuestionTitle text="첫 출근 연도" />
+                <Input
+                    type="number"
+                    placeholder="숫자 네자리 입력"
+                    register={register('firstWorkYear', {
+                        valueAsNumber: true,
+                        required: true,
+                    })}
+                />
             </QuestionContainer>
             <Button
                 css={css`
@@ -380,6 +490,7 @@ const SurveyPresenter = function () {
                     placeholder="숫자 입력 (회)"
                     register={register('alcoholPerOnce', {
                         valueAsNumber: true,
+                        required: true,
                     })}
                 />
             </QuestionContainer>
@@ -390,96 +501,23 @@ const SurveyPresenter = function () {
                     placeholder="숫자 입력 (회)"
                     register={register('alcoholPerWeek', {
                         valueAsNumber: true,
+                        required: true,
                     })}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="좋아하는 술" />
-                <SelectBox register={register('favoriteAlcohol')}>
-                    <option value="">클릭하여 선택</option>
-                    <option value="SOJU">소주</option>
-                    <option value="BEER">맥주</option>
-                    <option value="WINE">와인</option>
-                    <option value="MAKGEOLI">막걸리</option>
-                    <option value="BOARDCAKE">보드카</option>
-                    <option value="COCKTAIL">칵테일</option>
-                </SelectBox>
-            </QuestionContainer>
-            <Button
-                css={css`
-                    margin-top: 100px;
-                    ${isMobile} {
-                        margin-top: 30px;
-                    }
-                `}
-                onClick={handleClickNext}
-                type="button"
-            >
-                다음
-            </Button>
-        </>,
-        <>
-            <QuestionContainer>
-                <QuestionTitle text="현재 재직 여부" />
-                <RadioButtons
-                    items={[
-                        { value: 1, text: '예' },
-                        { value: 0, text: '아니오' },
+                <SelectBox
+                    register={register('favoriteAlcohol', { required: true })}
+                    options={[
+                        { value: '', text: '클릭하여 선택' },
+                        { value: 'SOJU', text: '소주' },
+                        { value: 'BEER', text: '맥주' },
+                        { value: 'WINE', text: '와인' },
+                        { value: 'MAKGEOLI', text: '막걸리' },
+                        { value: 'BOARDCAKE', text: '보드카' },
+                        { value: 'COCKTAIL', text: '칵테일' },
                     ]}
-                    itemWidth={isMobileSize ? '120px' : '150px'}
-                    register={register('isEmployed')}
-                />
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="직종" />
-                <SelectBox register={register('job', { valueAsNumber: true })}>
-                    <option value="">클릭하여 선택</option>
-                    <option value="1">서비스업</option>
-                    <option value="2">물류</option>
-                    <option value="3">영업직</option>
-                </SelectBox>
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="소득 수준 (단위:원)" />
-                <RadioButtons
-                    items={[{ value: '2000', text: '2천만 ~ 3천만' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-                <RadioButtons
-                    items={[{ value: '3000', text: '3천만 ~ 4천만' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-                <RadioButtons
-                    items={[{ value: '4000', text: '4천만 ~ 6천만' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-                <RadioButtons
-                    items={[{ value: '6000', text: '6천만 ~ 8천만' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-                <RadioButtons
-                    items={[{ value: '8000', text: '8천만 ~ 1억' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-                <RadioButtons
-                    items={[{ value: '10000', text: '1억 이상' }]}
-                    itemWidth="200px"
-                    register={register('income', { valueAsNumber: true })}
-                />
-            </QuestionContainer>
-            <QuestionContainer>
-                <QuestionTitle text="첫 출근 연도" />
-                <Input
-                    type="number"
-                    placeholder="숫자 네자리 입력"
-                    register={register('firstWorkYear', {
-                        valueAsNumber: true,
-                    })}
                 />
             </QuestionContainer>
             <Button
@@ -501,7 +539,10 @@ const SurveyPresenter = function () {
                 <Input
                     type="number"
                     placeholder="숫자 입력"
-                    register={register('loveCount', { valueAsNumber: true })}
+                    register={register('loveCount', {
+                        valueAsNumber: true,
+                        required: true,
+                    })}
                 />
             </QuestionContainer>
             <QuestionContainer>
@@ -513,28 +554,20 @@ const SurveyPresenter = function () {
                         { value: 'BISEXUAL', text: '양성' },
                     ]}
                     itemWidth={isMobileSize ? '80px' : '100px'}
-                    register={register('isLoveTarget')}
+                    register={register('isLoveTarget', { required: true })}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="현재 연애 여부 (기혼 포함)" />
-                <RadioButtons
-                    items={[
-                        { value: 1, text: '예' },
-                        { value: 0, text: '아니오' },
-                    ]}
-                    itemWidth="100px"
-                    register={register('isInLove')}
+                <YNRadioButton
+                    width={isMobileSize ? '120px' : '150px'}
+                    register={register('isInLove', { required: true })}
                 />
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="기혼 여부" />
-                <RadioButtons
-                    items={[
-                        { value: 1, text: '예' },
-                        { value: 0, text: '아니오' },
-                    ]}
-                    itemWidth="100px"
+                <YNRadioButton
+                    width={isMobileSize ? '120px' : '150px'}
                     register={register('isMarried')}
                 />
             </QuestionContainer>
@@ -564,6 +597,98 @@ const SurveyPresenter = function () {
                     items={[{ value: 'OVER3YEARS', text: '3년 이상' }]}
                     itemWidth="200px"
                     register={register('longestLoveTime')}
+                />
+            </QuestionContainer>
+            <Button
+                css={css`
+                    margin-top: 100px;
+                    ${isMobile} {
+                        margin-top: 30px;
+                    }
+                `}
+                onClick={handleClickNext}
+                type="button"
+            >
+                다음
+            </Button>
+        </>,
+        <>
+            <QuestionContainer>
+                <QuestionTitle text="거주형태" />
+                <RadioButtons
+                    items={[{ value: 'SINGLE', text: '싱글(1인 가구)' }]}
+                    itemWidth="240px"
+                    register={register('residenceType', { required: true })}
+                />
+                <RadioButtons
+                    items={[
+                        { value: 'COUPLE', text: '커플' },
+                        { value: 'FAMILY', text: '가족' },
+                    ]}
+                    itemWidth="120px"
+                    register={register('residenceType', { required: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="외동 여부" />
+                <YNRadioButton
+                    width="100px"
+                    register={register('isOnlyChild', { required: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="모든 형제" />
+                <Input
+                    type="number"
+                    placeholder="숫자 입력 (명)"
+                    register={register('allBrothers', {
+                        valueAsNumber: true,
+                    })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="모든 자매" />
+                <Input
+                    type="number"
+                    placeholder="숫자 입력 (명)"
+                    register={register('allSisters', {
+                        valueAsNumber: true,
+                    })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="형제자매 중 몇째" />
+                <Input
+                    type="number"
+                    placeholder="숫자 입력 (째)"
+                    register={register('myOrder', { valueAsNumber: true })}
+                />
+            </QuestionContainer>
+            <QuestionContainer>
+                <QuestionTitle text="현재 거주 지역" />
+                <SelectBox
+                    register={register('currentAddress', { required: true })}
+                    options={[
+                        // todo 서버쪽 enum 잘못됨
+                        { value: '', text: '클릭하여 선택' },
+                        { value: '02', text: '서울특별시' },
+                        { value: '031', text: '경기도' },
+                        { value: '032', text: '인천광역시' },
+                        { value: '033', text: '강원도' },
+                        { value: '041', text: '충청남도' },
+                        { value: '042', text: '대전광역시' },
+                        { value: '043', text: '충청북도' },
+                        { value: '044', text: '세종특별자치시' },
+                        { value: '051', text: '부산광역시' },
+                        { value: '052', text: '울산광역시' },
+                        { value: '053', text: '대구광역시' },
+                        { value: '054', text: '경상북도' },
+                        { value: '055', text: '경상남도' },
+                        { value: '061', text: '전라남도' },
+                        { value: '062', text: '광주광역시' },
+                        { value: '063', text: '전라북도' },
+                        { value: '064', text: '제주특별자치도' },
+                    ]}
                 />
             </QuestionContainer>
             <Button
@@ -647,25 +772,28 @@ const SurveyPresenter = function () {
             </QuestionContainer>
             <QuestionContainer>
                 <QuestionTitle text="선호 MBTI" />
-                <SelectBox register={register('favoriteMbti')}>
-                    <option value="">클릭하여 선택</option>
-                    <option value="INFP">INFP</option>
-                    <option value="INFJ">INFJ</option>
-                    <option value="INTP">INTP</option>
-                    <option value="INTJ">INTJ</option>
-                    <option value="ISFP">ISFP</option>
-                    <option value="ISFJ">ISFJ</option>
-                    <option value="ISTP">ISTP</option>
-                    <option value="ISTJ">ISTJ</option>
-                    <option value="ESFP">ESFP</option>
-                    <option value="ESFJ">ESFJ</option>
-                    <option value="ESTP">ESTP</option>
-                    <option value="ESTJ">ESTJ</option>
-                    <option value="ENFP">ENFP</option>
-                    <option value="ENFJ">ENFJ</option>
-                    <option value="ENTP">ENTP</option>
-                    <option value="ENTJ">ENTJ</option>
-                </SelectBox>
+                <SelectBox
+                    register={register('favoriteMbti')}
+                    options={[
+                        { value: '', text: '클릭하여 선택' },
+                        { value: 'INFP', text: 'INFP' },
+                        { value: 'INFJ', text: 'INFJ' },
+                        { value: 'INTP', text: 'INTP' },
+                        { value: 'INTJ', text: 'INTJ' },
+                        { value: 'ISFP', text: 'ISFP' },
+                        { value: 'ISFJ', text: 'ISFJ' },
+                        { value: 'ISTP', text: 'ISTP' },
+                        { value: 'ISTJ', text: 'ISTJ' },
+                        { value: 'ESFP', text: 'ESFP' },
+                        { value: 'ESFJ', text: 'ESFJ' },
+                        { value: 'ESTP', text: 'ESTP' },
+                        { value: 'ESTJ', text: 'ESTJ' },
+                        { value: 'ENFP', text: 'ENFP' },
+                        { value: 'ENFJ', text: 'ENFJ' },
+                        { value: 'ENTP', text: 'ENTP' },
+                        { value: 'ENTJ', text: 'ENTJ' },
+                    ]}
+                />
             </QuestionContainer>
             <Button
                 css={css`
@@ -684,100 +812,68 @@ const SurveyPresenter = function () {
     return (
         <FormContainer
             onSubmit={handleSubmit(async (data) => {
-                // users
-                const { token, mbti, phone }: UsersDto = data;
+                // user
+                const user: UsersDto = {
+                    token: data.token,
+                    mbti: data.mbti,
+                    phone: data.phone,
+                };
                 // common
-                const {
-                    gender,
-                    birth,
-                    personalColor,
-                    hobby,
-                    smartphoneOS,
-                    politics,
-                    religion,
-                }: CommonDto = data;
+                const common: CommonDto = {
+                    gender: data.gender,
+                    birth: data.birth,
+                    personalColor: data.personalColor,
+                    hobby: data.hobby,
+                    smartphoneOS: data.smartphoneOS,
+                    politics: data.politics,
+                    religion: data.religion,
+                };
                 // etc
-                const {
-                    leagueOfLegendsPosition,
-                    leagueOfLegendsTier,
-                    starcraftRace,
-                    favoriteMbti,
-                }: EtcDto = data;
+                const etc: EtcDto = {
+                    leagueOfLegendsPosition: data.leagueOfLegendsPosition,
+                    leagueOfLegendsTier: data.leagueOfLegendsTier,
+                    starcraftRace: data.starcraftRace,
+                    favoriteMbti: data.favoriteMbti,
+                };
                 // love
-                const {
-                    loveCount,
-                    isLoveTarget,
-                    isInLove,
-                    isMarried,
-                    longestLoveTime,
-                }: LoveDto = data;
+                const love: LoveDto = {
+                    loveCount: data.loveCount,
+                    isLoveTarget: data.isLoveTarget,
+                    isInLove: data.isInLove,
+                    isMarried: data.isMarried,
+                    longestLoveTime: data.longestLoveTime,
+                };
                 // residence
-                const {
-                    residenceType,
-                    isOnlyChild,
-                    allBrothers,
-                    allSisters,
-                    myOrder,
-                    currentAddress,
-                }: ResidenceDto = data;
+                const residence: ResidenceDto = {
+                    residenceType: data.residenceType,
+                    isOnlyChild: data.isOnlyChild,
+                    allBrothers: data.allBrothers,
+                    allSisters: data.allSisters,
+                    myOrder: data.myOrder,
+                    currentAddress: data.currentAddress,
+                };
                 // alcohol
-                const {
-                    alcoholPerOnce,
-                    alcoholPerWeek,
-                    favoriteAlcohol,
-                }: AlcoholDto = data;
+                const alcohol: AlcoholDto = {
+                    alcoholPerOnce: data.alcoholPerOnce,
+                    alcoholPerWeek: data.alcoholPerWeek,
+                    favoriteAlcohol: data.favoriteAlcohol,
+                };
                 // work
-                const { isEmployed, job, income, firstWorkYear }: WorkDto =
-                    data;
+                const work: WorkDto = {
+                    isEmployed: data.isEmployed,
+                    job: data.job,
+                    income: data.income,
+                    firstWorkYear: data.firstWorkYear,
+                };
 
                 const surveyData: SurveyReqBodyDto = {
-                    user: {
-                        token: Cookies.get('auth') || '',
-                        mbti,
-                        phone: '01024416661',
-                    },
-                    common: {
-                        gender,
-                        birth,
-                        personalColor,
-                        hobby,
-                        smartphoneOS,
-                        politics,
-                        religion,
-                    },
-                    love: {
-                        loveCount,
-                        isLoveTarget,
-                        isInLove,
-                        isMarried,
-                        longestLoveTime,
-                    },
-                    // todo: 뷰 개발 필요
-                    residence: {
-                        residenceType: 'SINGLE',
-                        isOnlyChild: 1,
-                        allBrothers: 1,
-                        allSisters: 2,
-                        myOrder: 3,
-                        currentAddress: '서울',
-                    },
-                    work: {
-                        isEmployed,
-                        job,
-                        income,
-                        firstWorkYear,
-                    },
-                    alcohol: {
-                        alcoholPerOnce,
-                        alcoholPerWeek,
-                        favoriteAlcohol,
-                    },
-                    etc: {
-                        leagueOfLegendsPosition,
-                        leagueOfLegendsTier,
-                        starcraftRace,
-                        favoriteMbti,
-                    },
+                    user,
+                    common,
+                    love,
+                    residence,
+                    work,
+                    alcohol,
+                    etc,
                 };
 
                 try {
@@ -811,56 +907,11 @@ const SurveyPresenter = function () {
     );
 };
 
-const RadioButtons = function ({
-    items,
-    itemWidth,
-    register,
-}: {
-    items: { value: string | number; text: string }[];
-    itemWidth: string;
-    register?: UseFormRegisterReturn;
-}) {
-    return (
-        <div
-            css={css`
-                margin: 10px 0;
-                :last-child {
-                    margin-bottom: 0;
-                }
-            `}
-        >
-            <Flex>
-                {items.map((elem, idx) => (
-                    <Item
-                        key={idx}
-                        css={css`
-                            width: ${itemWidth};
-                        `}
-                    >
-                        <RadioButton value={elem.value} register={register}>
-                            {elem.text}
-                        </RadioButton>
-                    </Item>
-                ))}
-            </Flex>
-        </div>
-    );
-};
-
 const FormContainer = styled.form`
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-`;
-
-const Item = styled.div`
-    :not(:last-child) {
-        margin-right: 20px;
-    }
-    ${isMobile} {
-        margin-right: 10px;
-    }
 `;
 
 const QuestionContainer = function ({

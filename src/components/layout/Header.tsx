@@ -20,6 +20,7 @@ const Container = styled.div`
     height: 96px;
     background: transparent;
     z-index: 1;
+    pointer-events: none;
 
     ${isTablet} {
         height: 77px;
@@ -38,7 +39,7 @@ const Header = () => {
             <Image src={ArrowHeader} width="136px" height="32px" alt="arrow" />
             {isShowProcessPercent && (
                 <span>
-                    {((Number(currentSurveyStep) / 6) * 100).toFixed(0)}%
+                    {((Number(currentSurveyStep) / 7) * 100).toFixed(0)}%
                 </span>
             )}
         </Container>

@@ -26,23 +26,33 @@ const StyledSelect = styled.select`
     }
 `;
 
+interface SelectBoxOption {
+    value: string;
+    text: string;
+}
 interface SelectBoxProps
     extends React.DetailedHTMLProps<
         React.SelectHTMLAttributes<HTMLSelectElement>,
         HTMLSelectElement
     > {
-    children: React.ReactNode;
+    options: SelectBoxOption[];
     register?: UseFormRegisterReturn;
 }
 
 export default function SelectBox({
-    children,
+    options,
     register,
     ...attrs
 }: SelectBoxProps) {
     return (
         <StyledSelect {...register} {...attrs}>
-            {children}
+            {options.map((elem: SelectBoxOption) => {
+                return (
+                    <option key={elem.value} value={elem.value}>
+                        {elem.text}
+                    </option>
+                );
+            })}
         </StyledSelect>
     );
 }

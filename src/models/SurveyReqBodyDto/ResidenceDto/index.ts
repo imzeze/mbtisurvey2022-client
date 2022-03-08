@@ -1,7 +1,7 @@
 export default interface ResidenceDto {
     residenceType: 'SINGLE' | 'COUPLE' | 'FAMILY';
     // 거주 형태
-    isOnlyChild: number;
+    isOnlyChild: '0' | '1';
     // 외동 여부
     allBrothers: number;
     // 모든 형제
