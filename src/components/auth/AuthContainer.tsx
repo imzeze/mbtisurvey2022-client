@@ -9,12 +9,15 @@ import { useEffect } from 'react';
 import api from '../../util/api';
 import { GetResponse } from '../../models/ResponseDto';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { TokenState } from '../../recoil/atoms';
 
 const AuthContainer = () => {
+    const [token, setToken] = useRecoilState(TokenState);
     const { app } = useFirebaseAuth();
     const auth = getAuth(app);
     const router = useRouter();
-
+    console.log('token', token);
     auth.languageCode = 'ko';
     const sendAuthCode = async (phone: string) => {
         if (!phone) return false;
@@ -51,14 +54,6 @@ const AuthContainer = () => {
             .then(async (result: any) => {
                 alert('인증이 완료되었습니다.');
                 if (result.user.accessToken) {
-                    // 클라이언트 API
-                    await api({
-                        method: 'post',
-                        baseURL: router.basePath,
-                        url: '/api/auth',
-                        data: { auth: result.user.accessToken },
-                    });
-
                     await api({
                         method: 'post',
                         url: '/tokens',
@@ -66,8 +61,8 @@ const AuthContainer = () => {
                             token: result.user.accessToken,
                         },
                     });
-
-                    router.replace('/survey');
+                    console.log('token', result.user.accessToken);
+                    setToken(result.user.accessToken);
                 }
             })
             .catch((error: any) => {
@@ -96,6 +91,12 @@ const AuthContainer = () => {
             );
         }
     }, [auth]);
+
+    useEffect(() => {
+        if (token) {
+            router.replace('/survey');
+        }
+    }, [token]);
 
     return (
         <AuthPresenter
