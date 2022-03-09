@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Input, Timer } from '../common';
 import { Container, Title, InputContainer, InputBox, Time } from './AuthStyled';
@@ -14,6 +14,7 @@ const AuthPresenter = ({
         register,
         setValue,
         getValues,
+        setFocus,
         formState: { errors },
         handleSubmit,
     } = useForm({
@@ -32,6 +33,10 @@ const AuthPresenter = ({
             }
         }
     };
+
+    useEffect(() => {
+        setFocus(step ? (step === 1 ? 'phone' : 'authNumber') : 'name');
+    }, [step]);
 
     return (
         <>
