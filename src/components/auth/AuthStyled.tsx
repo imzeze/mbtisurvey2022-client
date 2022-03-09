@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
 
@@ -11,6 +12,11 @@ export const Container = styled.div`
         display: flex;
         align-items: center;
     }
+`;
+
+const fadeIn = keyframes`
+   0% { opacity: 0; }
+   100% { opacity: 1; }
 `;
 
 export const Title = styled.div`
@@ -40,6 +46,7 @@ export const InputBox = styled.div`
         ${isMobile} {
             margin-bottom: 10px;
         }
+        animation: ${fadeIn} 1s linear;
     }
 `;
 
