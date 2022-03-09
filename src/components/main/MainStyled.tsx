@@ -2,7 +2,7 @@ import { keyframes, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import COLOR from '../../assets/consts/color';
 
-import { isDesktop, isMobile, isTablet } from '../../assets/consts/mediaQuery';
+import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
 
 export const Contianer = styled.div`
     background: ${COLOR.DARKGRAY};
