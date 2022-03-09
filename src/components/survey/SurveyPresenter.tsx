@@ -8,8 +8,9 @@ import SelectBox from '../common/SelectBox';
 import { Color, ColorResult, SliderPicker } from 'react-color';
 import { useEffect, useState } from 'react';
 import Button from '../common/Button';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+    AuthState,
     CurrentSurveyStepState,
     IsShowProcessPercentState,
 } from '../../recoil/atoms';
@@ -45,6 +46,7 @@ const SurveyPresenter = function () {
         ft: '·' | 'F' | 'T';
         pj: '·' | 'P' | 'J';
     }>({ ei: '·', ns: '·', ft: '·', pj: '·' });
+    const authState = useRecoilValue(AuthState);
 
     const { register, handleSubmit, setValue, watch } = useForm<
         AlcoholDto &
@@ -814,9 +816,9 @@ const SurveyPresenter = function () {
             onSubmit={handleSubmit(async (data) => {
                 // user
                 const user: UsersDto = {
-                    token: data.token,
+                    token: authState.token,
                     mbti: data.mbti,
-                    phone: data.phone,
+                    phone: authState.phone,
                 };
                 // common
                 const common: CommonDto = {

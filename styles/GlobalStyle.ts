@@ -76,6 +76,7 @@ const GlobalStyle = css`
     body {
         padding: 0;
         margin: 0;
+        background: ${COLOR.DARKGRAY};
     }
 
     div {

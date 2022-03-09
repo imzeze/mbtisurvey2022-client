@@ -10,7 +10,6 @@ interface LayoutProps {
 }
 
 const Container = styled.div`
-    background: ${COLOR.DARKGRAY};
     color: ${COLOR.WHITE};
 `;
 
