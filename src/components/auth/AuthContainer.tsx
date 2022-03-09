@@ -48,18 +48,18 @@ const AuthContainer = () => {
     const confirmAuthCode = (data: { [x: string]: string }) => {
         window.confirmationResult
             .confirm(data['authNumber'])
-            .then((result: any) => {
+            .then(async (result: any) => {
                 alert('인증이 완료되었습니다.');
                 if (result.user.accessToken) {
                     // 클라이언트 API
-                    api({
+                    await api({
                         method: 'post',
                         baseURL: router.basePath,
                         url: '/api/auth',
                         data: { auth: result.user.accessToken },
                     });
 
-                    api({
+                    await api({
                         method: 'post',
                         url: '/tokens',
                         data: {
