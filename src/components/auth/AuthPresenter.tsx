@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Input, Timer } from '../common';
@@ -22,7 +20,18 @@ const AuthPresenter = ({
         mode: 'onChange',
     });
     const [timerActiveCount, setTimerActiveCount] = useState(0);
+    const [step, setStep] = useState(0);
     const formRef = useRef<HTMLFormElement>(null);
+
+    const requestAuthCode = async () => {
+        const phone = getValues('phone');
+        if (phone) {
+            const result = await sendAuthCode(phone);
+            if (result) {
+                setTimerActiveCount((prev) => prev + 1);
+            }
+        }
+    };
 
     return (
         <>
@@ -44,54 +53,71 @@ const AuthPresenter = ({
                                     register={register('name', {
                                         required: true,
                                     })}
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' && step === 0)
+                                            setStep(1);
+                                    }}
                                 />
                                 {errors['name']?.type === 'required' && (
                                     <div>이름을 입력해주세요.</div>
                                 )}
                             </div>
-                            <div>
-                                <Input
-                                    placeholder="전화번호 입력"
-                                    register={register('phone', {
-                                        required: true,
-                                        validate: (v) => {
-                                            if (!isFinite(v)) {
-                                                setValue(
-                                                    'phone',
-                                                    v.slice(0, -1),
-                                                );
-                                                return false;
+                            {step > 0 && (
+                                <div>
+                                    <Input
+                                        placeholder="전화번호 입력"
+                                        register={register('phone', {
+                                            required: true,
+                                            validate: (v) => {
+                                                if (!isFinite(v)) {
+                                                    setValue(
+                                                        'phone',
+                                                        v.slice(0, -1),
+                                                    );
+                                                    return false;
+                                                }
+                                                return true;
+                                            },
+                                        })}
+                                        onKeyPress={(e) => {
+                                            if (e.key === 'Enter') {
+                                                setStep(2);
+                                                requestAuthCode();
                                             }
-                                            return true;
-                                        },
-                                    })}
-                                />
-                                {errors['phone']?.type === 'required' && (
-                                    <div>전화번호를 입력해주세요.</div>
-                                )}
-                            </div>
-                            <div>
-                                <Input
-                                    placeholder="인증번호 입력"
-                                    register={register('authNumber', {
-                                        required: true,
-                                        validate: (v) => {
-                                            if (!isFinite(v)) {
-                                                setValue(
-                                                    'authNumber',
-                                                    v.slice(0, -1),
-                                                );
-                                                return false;
-                                            }
-                                            return true;
-                                        },
-                                    })}
-                                />
-                                {errors['authNumber']?.type === 'required' && (
-                                    <div>인증번호를 입력해주세요.</div>
-                                )}
-                            </div>
-                            <input type="submit" hidden />
+                                        }}
+                                    />
+                                    {errors['phone']?.type === 'required' && (
+                                        <div>전화번호를 입력해주세요.</div>
+                                    )}
+                                </div>
+                            )}
+                            {step > 1 && (
+                                <>
+                                    <div>
+                                        <Input
+                                            placeholder="인증번호 입력"
+                                            register={register('authNumber', {
+                                                required: true,
+                                                validate: (v) => {
+                                                    if (!isFinite(v)) {
+                                                        setValue(
+                                                            'authNumber',
+                                                            v.slice(0, -1),
+                                                        );
+                                                        return false;
+                                                    }
+                                                    return true;
+                                                },
+                                            })}
+                                        />
+                                        {errors['authNumber']?.type ===
+                                            'required' && (
+                                            <div>인증번호를 입력해주세요.</div>
+                                        )}
+                                    </div>
+                                    <input type="submit" hidden />
+                                </>
+                            )}
                         </InputBox>
                     </InputContainer>
                     <Time>
@@ -104,21 +130,9 @@ const AuthPresenter = ({
                             <Button
                                 id="sign-in-button"
                                 type="button"
-                                onClick={async () => {
-                                    const phone = getValues('phone');
-                                    if (phone) {
-                                        const result = await sendAuthCode(
-                                            phone,
-                                        );
-                                        if (result) {
-                                            setTimerActiveCount(
-                                                (prev) => prev + 1,
-                                            );
-                                        }
-                                    }
-                                }}
+                                onClick={requestAuthCode}
                             >
-                                {timerActiveCount ? '문자 재발송' : '문자 발송'}
+                                문자 재발송
                             </Button>
                         </div>
                     </Time>
