@@ -28,6 +28,7 @@ import { isMobile } from '../../assets/consts/mediaQuery';
 import { useWindowSize } from '../../util/useWindowSize';
 import RadioButtons from '../common/RadioButtons';
 import YNRadioButton from '../common/YNRadioButton';
+import Cookie from 'js-cookie';
 
 // interface SurveyPresenterProps {}
 
@@ -39,6 +40,7 @@ const SurveyPresenter = function () {
     const setIsShowProcessPercent = useSetRecoilState(
         IsShowProcessPercentState,
     );
+
     const [mbti, setMbti] = useState<{
         ei: '·' | 'E' | 'I';
         ns: '·' | 'N' | 'S';
@@ -58,6 +60,11 @@ const SurveyPresenter = function () {
 
     const { width } = useWindowSize();
     const isMobileSize = (width || 0) < 480;
+
+    useEffect(() => {
+        console.log(Cookie.get('auth'));
+        Cookie.set('auth2', '123123');
+    }, []);
 
     useEffect(() => {
         setIsShowProcessPercent(true);
