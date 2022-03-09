@@ -10,7 +10,10 @@ export const IsShowProcessPercentState = atom({
     default: false,
 });
 
-export const TokenState = atom({
+export const AuthState = atom({
     key: 'TokenState',
-    default: '',
+    default: {
+        phone: '',
+        token: '',
+    },
 });

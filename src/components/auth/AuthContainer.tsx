@@ -10,15 +10,16 @@ import api from '../../util/api';
 import { GetResponse } from '../../models/ResponseDto';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { TokenState } from '../../recoil/atoms';
+import { AuthState } from '../../recoil/atoms';
 
 const AuthContainer = () => {
-    const [token, setToken] = useRecoilState(TokenState);
+    const [authState, setAuthState] = useRecoilState(AuthState);
     const { app } = useFirebaseAuth();
     const auth = getAuth(app);
     const router = useRouter();
-    console.log('token', token);
+
     auth.languageCode = 'ko';
+
     const sendAuthCode = async (phone: string) => {
         if (!phone) return false;
         const response = await api.get<GetResponse>('/users/checkphone', {
@@ -61,8 +62,11 @@ const AuthContainer = () => {
                             token: result.user.accessToken,
                         },
                     });
-                    console.log('token', result.user.accessToken);
-                    setToken(result.user.accessToken);
+
+                    setAuthState({
+                        token: result.user.accessToken,
+                        phone: data.phone,
+                    });
                 }
             })
             .catch((error: any) => {
@@ -84,7 +88,6 @@ const AuthContainer = () => {
                     size: 'invisible',
                     callback: (response: any) => {
                         // reCAPTCHA solved, allow signInWithPhoneNumber.
-                        console.log('response', response);
                     },
                 },
                 auth,
@@ -93,10 +96,10 @@ const AuthContainer = () => {
     }, [auth]);
 
     useEffect(() => {
-        if (token) {
+        if (authState.token) {
             router.replace('/survey');
         }
-    }, [token]);
+    }, [authState]);
 
     return (
         <AuthPresenter
