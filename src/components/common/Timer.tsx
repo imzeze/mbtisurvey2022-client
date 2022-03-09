@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { isDesktop, isMobile, isTablet } from '../../assets/consts/mediaQuery';
+import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
 
 interface StopWatchProps {
     // 시작
@@ -19,7 +19,7 @@ const Clock = styled('div')`
     ${isDesktop} {
         font-size: 200px;
     }
-    ${isTablet} {
+    ${isMobile} {
         font-size: 140px;
     }
     ${isMobile} {

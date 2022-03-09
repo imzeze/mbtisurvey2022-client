@@ -19,18 +19,15 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
-    ${isMobile} {
-        height: initial;
-    }
 `;
 
 export const Description = styled.div`
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding: 96px;
+    justify-content: center;
+    align-items: center;
     font-size: 18px;
+    width: 50%;
 
     ${isMobile} {
         width: 100%;
@@ -65,7 +62,7 @@ export const Title = styled.div`
         height: 200px;
     }
 
-    ${isTablet} {
+    ${isMobile} {
         font-size: 77px;
         height: 77px;
         margin-left: -9px;
@@ -92,8 +89,7 @@ export const SubTitle = styled.div`
 export const Intro = styled.div`
     line-height: 28px;
     margin-bottom: 34px;
-    width: 100%;
-    max-width: 600px;
+    width: 78%;
 
     ${isMobile} {
         font-size: 14px;

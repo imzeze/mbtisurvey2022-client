@@ -27,15 +27,20 @@ const MainPresenter = () => {
     return (
         <Container>
             <Description>
-                <Title>MBTI</Title>
                 <div
                     css={{
-                        border: `2px solid ${COLOR.WHITE}`,
-                        maxWidth: '465px',
-                        width: '100%',
+                        width: '78%',
                     }}
-                />
-                <SubTitle>SURVEY 2022</SubTitle>
+                >
+                    <Title>MBTI</Title>
+                    <div
+                        css={{
+                            border: `2px solid ${COLOR.WHITE}`,
+                            width: '100%',
+                        }}
+                    />
+                    <SubTitle>SURVEY 2022</SubTitle>
+                </div>
                 <Intro>
                     <div>
                         반갑습니다, MBTI 서베이에 오신 여러분들을 진심으로
@@ -68,16 +73,22 @@ const MainPresenter = () => {
                         </div>
                     )}
                 </Intro>
-                <Button
+                <div
                     css={css`
-                        ${isMobile} {
-                            margin: 0 auto;
-                        }
+                        width: 78%;
                     `}
-                    onClick={() => router.push('/auth')}
                 >
-                    시작합니다!
-                </Button>
+                    <Button
+                        css={css`
+                            ${isMobile} {
+                                margin: 0 auto;
+                            }
+                        `}
+                        onClick={() => router.push('/auth')}
+                    >
+                        시작합니다!
+                    </Button>
+                </div>
             </Description>
             <Types>
                 <TypesBox>

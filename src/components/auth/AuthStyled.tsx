@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isDesktop, isMobile, isTablet } from '../../assets/consts/mediaQuery';
+import { isDesktop, isMobile } from '../../assets/consts/mediaQuery';
 
 export const Container = styled.div`
     ${isMobile} {
@@ -65,7 +65,7 @@ export const Time = styled.div`
             width: 100%;
             max-width: 500px;
         }
-        ${isTablet} {
+        ${isMobile} {
             width: 100%;
             max-width: 440px;
         }

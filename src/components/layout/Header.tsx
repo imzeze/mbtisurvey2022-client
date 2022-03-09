@@ -6,7 +6,7 @@ import {
     IsShowProcessPercentState,
 } from '../../recoil/atoms';
 import { useRecoilValue } from 'recoil';
-import { isMobile, isTablet } from '../../assets/consts/mediaQuery';
+import { isMobile } from '../../assets/consts/mediaQuery';
 
 const Container = styled.div`
     position: fixed;
@@ -22,7 +22,7 @@ const Container = styled.div`
     z-index: 1;
     pointer-events: none;
 
-    ${isTablet} {
+    ${isMobile} {
         height: 77px;
     }
     ${isMobile} {
