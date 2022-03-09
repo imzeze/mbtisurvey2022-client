@@ -268,7 +268,7 @@ const SurveyPresenter = function () {
                         { value: 'FEMALE', text: '여성' },
                         { value: 'MTF', text: 'MTF' },
                     ]}
-                    itemWidth={isMobileSize ? '80px' : '100px'}
+                    itemWidth={isMobileSize ? '100px' : '120px'}
                     register={register('gender', { required: true })}
                 />
                 <RadioButtons
@@ -335,12 +335,16 @@ const SurveyPresenter = function () {
             <QuestionContainer>
                 <QuestionTitle text="사용하는 스마트폰" />
                 <RadioButtons
+                    items={[{ value: 'IOS', text: 'iOS' }]}
+                    itemWidth={isMobileSize ? '120px' : '150px'}
+                    register={register('smartphoneOS', { required: true })}
+                />
+                <RadioButtons
                     items={[
                         { value: 'ANDROID', text: '안드로이드' },
-                        { value: 'IOS', text: 'iOS' },
                         { value: 'ETC', text: '기타' },
                     ]}
-                    itemWidth={isMobileSize ? '120px' : '150px'}
+                    itemWidth={isMobileSize ? '130px' : '150px'}
                     register={register('smartphoneOS', { required: true })}
                 />
             </QuestionContainer>
@@ -762,13 +766,9 @@ const SurveyPresenter = function () {
                     items={[
                         { value: 'TERRAN', text: '테란' },
                         { value: 'PROTOSS', text: '프로토스' },
+                        { value: 'ZERG', text: '저그' },
                     ]}
-                    itemWidth="120px"
-                    register={register('starcraftRace')}
-                />
-                <RadioButtons
-                    items={[{ value: 'ZERG', text: '저그' }]}
-                    itemWidth="120px"
+                    itemWidth="100px"
                     register={register('starcraftRace')}
                 />
             </QuestionContainer>
@@ -896,8 +896,11 @@ const SurveyPresenter = function () {
                                 ? 'flex'
                                 : 'none'};
                             flex-direction: column;
+                            padding: 140px 0;
                             ${isMobile} {
+                                width: 100%;
                                 align-items: center;
+                                padding: 100px 0;
                             }
                         `}
                     >
@@ -910,6 +913,7 @@ const SurveyPresenter = function () {
 };
 
 const FormContainer = styled.form`
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;

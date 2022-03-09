@@ -24,7 +24,7 @@ const StyledInput = styled.input`
         border-radius: 50%;
         transition: 0.25s;
         ${isMobile} {
-            font-size: 20px;
+            font-size: 16px;
         }
     }
 
@@ -40,6 +40,10 @@ const StyledInput = styled.input`
         border-radius: 50%;
         transition: 0.25s;
         margin-right: 10px;
+        ${isMobile} {
+            width: 24px;
+            height: 24px;
+        }
     }
 
     &:checked + label:before {
