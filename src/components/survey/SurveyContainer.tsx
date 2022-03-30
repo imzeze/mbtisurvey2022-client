@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import SurveyReqBodyDto from '../../models/SurveyReqBodyDto';
 import AlcoholDto from '../../models/SurveyReqBodyDto/AlcoholDto';
 import CommonDto from '../../models/SurveyReqBodyDto/CommonDto';
@@ -14,7 +14,7 @@ import api from '../../util/api';
 import SurveyPresenter from './SurveyPresenter';
 
 const SurveyContainer = function () {
-    const authState = useRecoilValue(AuthState);
+    const [authState, setAuthState] = useRecoilState(AuthState);
     const router = useRouter();
 
     useEffect(() => {
@@ -106,9 +106,12 @@ const SurveyContainer = function () {
                 data: surveyData,
             });
             alert('서베이가 등록되었습니다. 감사합니다.');
+            setAuthState({ phone: '', token: '' });
             router.replace('/');
         } catch {
             alert('서베이 등록에 실패했습니다. 죄송합니다.');
+            setAuthState({ phone: '', token: '' });
+            router.replace('/');
         }
     };
 

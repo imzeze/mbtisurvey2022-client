@@ -1036,11 +1036,15 @@ const SurveyPresenter = function ({ onSubmit }: SurveyPresenterProps) {
                         !isError && setFocus('isOnlyChild');
                         isError = true;
                     }
-                    if (!allBrothers && isOnlyChild === '0') {
+                    if (
+                        !allBrothers &&
+                        allBrothers != 0 &&
+                        isOnlyChild === '0'
+                    ) {
                         !isError && setFocus('allBrothers');
                         isError = true;
                     }
-                    if (!allSisters && isOnlyChild === '0') {
+                    if (!allSisters && allSisters != 0 && isOnlyChild === '0') {
                         !isError && setFocus('allSisters');
                         isError = true;
                     }
