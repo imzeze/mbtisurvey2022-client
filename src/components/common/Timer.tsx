@@ -17,10 +17,7 @@ const Clock = styled('div')`
     font-weight: 300;
 
     ${isDesktop} {
-        font-size: 200px;
-    }
-    ${isMobile} {
-        font-size: 140px;
+        font-size: 180px;
     }
     ${isMobile} {
         font-size: 100px;
