@@ -6,7 +6,7 @@ import { isMobile } from '../../assets/consts/mediaQuery';
 
 const StyledInput = styled.input`
     width: 100%;
-    max-width: 356px;
+    max-width: ${isMobile ? 'none' : '356px'};
     height: 65px;
     background: transparent;
     border: 0;
@@ -35,5 +35,11 @@ export default function Input({
 }: InputHTMLAttributes<HTMLInputElement> & {
     register?: UseFormRegisterReturn;
 }) {
-    return <StyledInput {...attrs} {...register} />;
+    return (
+        <StyledInput
+            {...attrs}
+            {...register}
+            onWheel={(e) => (e.target as HTMLInputElement).blur()}
+        />
+    );
 }
