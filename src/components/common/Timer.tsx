@@ -15,7 +15,6 @@ interface StopWatchProps {
 const Clock = styled('div')`
     font-family: Montserrat;
     font-weight: 300;
-
     ${isDesktop} {
         font-size: 180px;
     }
