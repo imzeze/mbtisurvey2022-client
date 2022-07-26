@@ -17,9 +17,11 @@ const Clock = styled('div')`
     font-weight: 300;
     ${isDesktop} {
         font-size: 180px;
+        width: 428px;
     }
     ${isMobile} {
         font-size: 100px;
+        width: 274px;
     }
 `;
 
