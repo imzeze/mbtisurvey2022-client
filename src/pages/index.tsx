@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import { Layout, Template } from '../components/layout';
 import MainPresenter from '../components/main/MainPresenter';
 
