@@ -1,5 +1,5 @@
-import { FirebaseApp, initializeApp } from '@firebase/app';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { initializeApp } from '@firebase/app';
+import { GetStaticProps } from 'next';
 import AuthContainer from '../../components/auth/AuthContainer';
 import { Layout, Template } from '../../components/layout';
 
@@ -26,18 +26,18 @@ const AuthPage = ({ firebaseConfig }: AuthPageProps) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const res = await fetch(`${process.env.BASE_URL}/api/firebase`, {
-        method: 'get',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    const response = await res.json();
-
+export const getStaticProps: GetStaticProps = () => {
     return {
-        props: { firebaseConfig: response },
+        props: {
+            firebaseConfig: {
+                apiKey: process.env.API_KEY,
+                authDomain: process.env.AUTH_DOMAIN,
+                projectId: process.env.PROJECT_ID,
+                storageBucket: process.env.STORAGE_BUCKET,
+                messagingSenderId: process.env.MESSAGING_SENDER_ID,
+                appId: process.env.APP_ID,
+            },
+        },
     };
 };
 
