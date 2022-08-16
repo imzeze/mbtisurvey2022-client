@@ -5,7 +5,7 @@ export default function Document() {
         <Html>
             <Head>
                 <link rel="icon" href="/images/favicon.ico" />
-                <meta property="og:image" content="/ogimage.png" />
+                <meta property="og:image" content="/images/ogimage.png" />
             </Head>
             <body>
                 <Main />
